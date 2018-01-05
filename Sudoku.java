@@ -12,6 +12,9 @@ public class Sudoku {
 	    }
 	}
     }
+    public int getData(int row, int col) {
+	return data[row][col];
+    }
     public Sudoku(int seed) {}
     private boolean checkRows(){
 	return true;

@@ -12,7 +12,14 @@ public class Sudoku {
 	    }
 	}
     }
-    public int getData(int row, int col) {
+    public int getInput() {
+        for (int i = 0; i < 9; i++) {
+	    for (int x = 0; x < 9; x++) {
+		input[i][x] = 0;             //takes the input
+	    }                                //from the other class and brings it here
+	}
+    }
+    public int getData(int row, int col) {   
 	return data[row][col];
     }
     public Sudoku(int seed) {}
@@ -26,7 +33,7 @@ public class Sudoku {
 	return true;
     }
     public String displaySolution(){
-	return "";
+	return data;
     }
     public boolean checkAnswer(){
 	return true;

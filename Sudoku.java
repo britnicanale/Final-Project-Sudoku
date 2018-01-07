@@ -3,7 +3,7 @@ public class Sudoku {
     private int[][] data;
     private int[][] input;
     private Random randgen;
-    public Sudoku() {                           //jeremy--just put in values
+    public Sudoku() {                           //just put in values
 	int place = 0;                          //to get grid working
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {

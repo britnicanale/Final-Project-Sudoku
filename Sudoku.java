@@ -5,12 +5,11 @@ public class Sudoku {
     private int[][] data;
     private int[][] input;
     private Random randgen;
-    public Sudoku() {                           //just put in values
-	int place = 0;                          //to get grid working
+    public Sudoku() {                           //just put in values to get grid working
+	int[][] data = new int[9][9];
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
-		data[i][x] = place;
-		place ++;
+		data[i][x] = i * 9 + x;
 	    }
 	}
     }

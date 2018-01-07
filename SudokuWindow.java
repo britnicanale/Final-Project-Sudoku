@@ -15,9 +15,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+	//NOTE: THE NEXT SIX LINES ARE EDITED BUT TAKEN FROM THE FOLLOWING LINK: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java  I used this because I am having a problem with panes that I cannot solve and am using this for testing purposes at the moment
+
 	JPanel pane = new JPanel(new BorderLayout());
 
-	JPanel chessBoardPanel = new JPanel(new GridLayout(9, 9));
+	JPanel sudokuPane = new JPanel(new GridLayout(9, 9));
 
 	JPanel buttonPane = new JPanel();
 

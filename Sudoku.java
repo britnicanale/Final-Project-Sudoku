@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.Arrays;
+
 public class Sudoku {
     private int[][] data;
     private int[][] input;
@@ -12,12 +14,14 @@ public class Sudoku {
 	    }
 	}
     }
-    public int getInput() {
-        for (int i = 0; i < 9; i++) {
+    public int getInput(int row, int col) {
+	/*        for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		input[i][x] = 0;             //takes the input
 	    }                                //from the other class and brings it here
-	}
+	    }*/
+
+	return input[row][col];
     }
     public int getData(int row, int col) {   
 	return data[row][col];
@@ -33,7 +37,7 @@ public class Sudoku {
 	return true;
     }
     public String displaySolution(){
-	return data;
+	return "";
     }
     public boolean checkAnswer(){
 	return true;

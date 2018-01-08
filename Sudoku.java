@@ -8,7 +8,7 @@ public class Sudoku {
     private Random randgen;
 
     public Sudoku() {                           //just put in values to get grid working
-	int[][] data = new int[9][9];
+	data = new int[9][9];
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		data[i][x] = i * 9 + x;
@@ -24,6 +24,7 @@ public class Sudoku {
 
 	return input[row][col];
     }
+
     public int getData(int row, int col) {   
 	return data[row][col];
     }

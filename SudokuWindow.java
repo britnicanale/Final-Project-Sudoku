@@ -5,10 +5,11 @@ import java.awt.event.*;
 public class SudokuWindow extends JFrame implements ActionListener{
 
     //private Container pane;
+    private Sudoku puzzle;
 
     public SudokuWindow(){
 
-	Sudoku puzzle = new Sudoku();
+	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
         this.setSize(300,300);
@@ -35,7 +36,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	//pane.setLayout(new GridLayout(9, 9));                      //Britni -- Creates a 9 x 9 Grid for the board
 
-	for(int i = 1; i < 82; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
+	for(int i = 0; i < 81; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
 	    JTextField b = new JTextField(puzzle.getData(i / 9, i % 9));
 	    b.addActionListener(this);
 	    sudokuPane.add(b);

@@ -8,6 +8,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     //private Container pane;
     private Sudoku puzzle;
+
+    private JPanel pane;
+    private JPanel sudokuPane;
+    private JPanel buttonPane;
+    private JTextField[][] texts;
     //private JTextField b;
     public SudokuWindow(){
 
@@ -20,11 +25,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	//NOTE: THE NEXT SIX LINES ARE EDITED BUT TAKEN FROM THE FOLLOWING LINK: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java  I used this because I am having a problem with panes that I cannot solve and am using this for testing purposes at the moment
 
-	JPanel pane = new JPanel(new BorderLayout());
+	pane = new JPanel(new BorderLayout());
 
-	JPanel sudokuPane = new JPanel(new GridLayout(9, 9));
+	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	JPanel buttonPane = new JPanel();
+	buttonPane = new JPanel();
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
@@ -39,20 +44,32 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	buttonPane.add(createPuzzle);
 
 	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
+	texts = new JTextField[9][9];
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
-	    for(int j = 0; j < 9; j++){
-		JTextField b = new JTextField("" + puzzle.getInput(i, j));
+	    for(int j = 0; j < 9; j++){	
+		JTextField b = new JTextField("");
 		b.addActionListener(this);
-		b.setEditable(true);
+		//b.setEditable(true);
+		texts[i][j]= b;
 		sudokuPane.add(b);
 	    }
-	}
+	    }
     }
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
-	    //b.setText("0");
+	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
+		for(int j = 0; j < 9; j++){
+
+		    texts[i][j].setText("" + puzzle.getData(i,j ));
+		    //b.addActionListener(this);
+		    texts[i][j].setEditable(true);
+		    //texts[i][j]= b;
+		    //sudokuPane.add(b);
+		}
+	    }
+
 
 	}
     }

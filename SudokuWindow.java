@@ -6,15 +6,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     //private Container pane;
     private Sudoku puzzle;
-<<<<<<< HEAD
-
-
-    public SudokuWindow(){
-=======
     //private JTextField b;
     public SudokuWindow(){
 
->>>>>>> master
 	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
@@ -42,16 +36,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	buttonPane.add(createPuzzle);
 
-<<<<<<< HEAD
-	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
 
-	for(int i = 0; i < 9; i++){                               //Creates 81 JTextBoxes that fit within the board
-	    for (int x = 0; x < 9; x++) {
-		JTextField b = new JTextField(puzzle.getData(i, x));
-		b.addActionListener(this);
-		sudokuPane.add(b);
-	    }
-=======
+	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
 	    for(int j = 0; j < 9; j++){
@@ -67,7 +53,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
 	    //b.setText("0");
->>>>>>> master
+
 	}
     }
     public static void main(String[] args){

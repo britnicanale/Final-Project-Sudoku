@@ -36,7 +36,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	buttonPane.add(createPuzzle);
 
-
 	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board

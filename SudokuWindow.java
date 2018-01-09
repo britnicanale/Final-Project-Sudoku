@@ -42,8 +42,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
 	    for(int j = 0; j < 9; j++){
-		
-		JTextField b = new JTextField("" + puzzle.getData(i, j));
+		JTextField b = new JTextField("" + puzzle.getInput(i, j));
 		b.addActionListener(this);
 		b.setEditable(true);
 		sudokuPane.add(b);

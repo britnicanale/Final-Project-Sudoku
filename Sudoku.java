@@ -9,6 +9,8 @@ public class Sudoku {
 
     public Sudoku() {                           //just put in values to get grid working
 	data = new int[9][9];
+	input = new int[9][9];
+	randgen = new Random();
         int[][] actual = new int[][]{           //this is a real solution--we will work with it until we get the generator up and running
 	    {2,5,7,9,6,4,1,8,3},
 	    {4,9,1,8,7,3,6,5,2},
@@ -23,16 +25,13 @@ public class Sudoku {
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		data[i][x] = actual[i][x];
+		input[i][x] = actual[i][x];
 	    }
 	}
+        
     }
     public int getInput(int row, int col) {
-	/*        for (int i = 0; i < 9; i++) {
-	    for (int x = 0; x < 9; x++) {
-		input[i][x] = 0;             //takes the input
-	    }                                //from the other class and brings it here
-	    }*/
-
+	createPuzzle();
 	return input[row][col];
     }
 
@@ -69,7 +68,16 @@ public class Sudoku {
 	return true;
     }
 
-    private void createPuzzle(){}
+    private void createPuzzle(){
+	for (int i = 0; i < 9; i++) {
+	    for (int x = 0; x < 9; x++) {
+		int a = randgen.nextInt(50);
+		if (a == 0) {
+		    input[i][x] = 0;
+		}
+	    }
+	}
+    }
 
     public void changeInput(int row, int col, int value){}
 }

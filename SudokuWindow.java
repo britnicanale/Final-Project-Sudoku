@@ -12,7 +12,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
-        this.setSize(300,400);
+        this.setSize(300,350);
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -42,6 +42,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		
 		JTextField b = new JTextField("" + puzzle.getData(i, j));
 		b.addActionListener(this);
+		b.setEditable(false);
 		sudokuPane.add(b);
 	    }
 	}

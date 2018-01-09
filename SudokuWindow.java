@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
@@ -43,7 +45,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		
 		JTextField b = new JTextField("" + puzzle.getData(i, j));
 		b.addActionListener(this);
-		b.setEditable(false);
+		b.setEditable(true);
 		sudokuPane.add(b);
 	    }
 	}

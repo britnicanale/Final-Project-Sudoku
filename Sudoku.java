@@ -9,9 +9,20 @@ public class Sudoku {
 
     public Sudoku() {                           //just put in values to get grid working
 	data = new int[9][9];
+        int[][] actual = new int[][]{           //this is a real solution--we will work with it until we get the generator up and running
+	    {2,5,7,9,6,4,1,8,3},
+	    {4,9,1,8,7,3,6,5,2},
+	    {3,8,6,1,2,5,9,4,7},
+	    {6,4,5,7,3,2,8,1,9},
+	    {7,1,9,5,4,8,3,2,6},
+	    {8,3,2,6,1,9,5,7,4},
+	    {1,6,3,2,5,7,4,9,8},
+	    {5,7,8,4,9,6,2,3,1},
+	    {9,2,4,3,8,1,7,6,5}
+	};
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
-		data[i][x] = i * 9 + x;
+		data[i][x] = actual[i][x];
 	    }
 	}
     }

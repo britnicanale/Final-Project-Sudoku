@@ -24,6 +24,7 @@ public class Sudoku {
 
 	return input[row][col];
     }
+
     public int getData(int row, int col) {   
 	return data[row][col];
     }

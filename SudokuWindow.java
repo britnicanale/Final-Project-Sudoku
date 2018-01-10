@@ -22,7 +22,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
-        this.setSize(300,400);
+        this.setSize(700,700);
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
@@ -48,6 +48,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton createPuzzle = new JButton("Create Puzzle");
 	JButton displaySolution = new JButton("Display Solution");
 	JButton checkAnswers = new JButton("Check Answers");
+	JButton clearPuzzle = new JButton("Clear Puzzle");
 
 	displaySolution.addActionListener(this);
 
@@ -55,6 +56,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	
 	createPuzzle.addActionListener(this);
 
+	clearPuzzle.addActionListener(this);
+	
+	buttonPane.add(clearPuzzle);
 	buttonPane.add(createPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
@@ -146,17 +150,27 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	}
-	if(s.equals("Check Answers")){ // THIS DOESN"T WORK RIGHT NOW DON'T PRESS IT
-	    for(int i = 0; i < 9; i++){
+	if(s.equals("Check Answers")){ // If not null, compare the input to the data
+	    for(int i = 0; i < 9; i++){         //turn green if correct, red if not
                 for(int j = 0; j < 9; j++){
-		    if(texts[i][j].getValue().equals("" + puzzle.getData(i, j))){
-			texts[i][j].setForeground(Color.GREEN);
-		    }else{
-			texts[i][j].setForeground(Color.RED);
+		    if (texts[i][j].getValue() != null) {                        
+			if((int)texts[i][j].getValue() == puzzle.getData(i, j)){
+			    texts[i][j].setForeground(Color.GREEN);
+			}else{
+			    texts[i][j].setForeground(Color.RED);
+			}
 		    }
-                }
+		}
             }
         }
+	if (s.equals("Clear Puzzle")) {
+	    for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+		    //texts[i][j] = null;
+		    texts[i][j].setText("");
+		}
+	    }
+	}
     }
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();

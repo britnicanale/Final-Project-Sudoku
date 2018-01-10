@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
+import java.text.*;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
@@ -14,16 +15,17 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
-    private JFormattedTextField[][] texts;
+    private JFormattedTextField[][] texts; // https://docs.oracle.com/javase/tutorial/uiswing/components/formattedtextfield.html#factory          https://docs.oracle.com/javase/8/docs/api/javax/swing/JFormattedTextField.html
     //private JTextField b;
     public SudokuWindow(){
 
 	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
-        this.setSize(300,350);
+        this.setSize(300,400);
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	this.setResizable(false);
 
 	//NOTE: THE NEXT SIX LINES ARE EDITED BUT TAKEN FROM THE FOLLOWING LINK: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java  I used this because I am having a problem with panes that I cannot solve and am using this for testing purposes at the moment
 
@@ -44,27 +46,50 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	this.getContentPane().add(pane);
 
 	JButton createPuzzle = new JButton("Create Puzzle");
+	JButton displaySolution = new JButton("Display Solution");
+	JButton checkAnswers = new JButton("Check Answers");
+
+	displaySolution.addActionListener(this);
+
+	checkAnswers.addActionListener(this);
 	
 	createPuzzle.addActionListener(this);
 
 	buttonPane.add(createPuzzle);
-
+	buttonPane.add(displaySolution);
+	buttonPane.add(checkAnswers);
 	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
 	texts = new JFormattedTextField[9][9];
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
 
 	    for(int j = 0; j < 9; j++){
-		
-		NumberFormat intFormat = NumberFormat.getNumberInstance();
 
-		NumberFormatter formatter = new NumberFormatter(intFormat);
+		NumberFormat intFormat = NumberFormat.getNumberInstance(); // https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html  https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers   https://docs.oracle.com/javase/7/docs/api/java/text/Format.html
 
+		//NumberFormatter formatter = new NumberFormatter(intFormat);
+
+		//THIS NUMBERFORMATTER STUFF IS TAKEN FROM https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html
+		NumberFormatter formatter = new NumberFormatter(intFormat) {
+			// we have to allow the empty string, the call chain is
+			//      DefaultFormatter
+			//              DefaultDocumentFilter.remove
+			//              replace
+			//              canReplace
+			//              isValidEdit
+			//              stringToValue
+			public Object stringToValue(String string) throws ParseException {
+			    if (string == null || string.length() == 0) {
+				return null;
+			    }
+			    return super.stringToValue(string);
+			}
+		    };
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(1);
 		formatter.setMaximum(9);
-		formatter.setAllowsInvalid(false);
-		formatter.setCommitsOnValidEdit(true);
+		formatter.setAllowsInvalid(true);    //BRITNI: PROBLEM > This doesn't allow null values, so you can't delete an inputted number.
+		formatter.setCommitsOnValidEdit(true);//BRITNI: If I can add a keylistener to enter, I can find my way around this. That, or I can use the pre-existing one in JFormattedTextField, if I can figure out how to access it (Basically, it saves the value and the text separately and if the text is valid it makes it the value when you press enter, so if I can get in there I can do the same thing and accept null. 
 		JFormattedTextField b = new JFormattedTextField(formatter);
 
 
@@ -79,29 +104,59 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     }
 
+    //THING TO ASK MR K: IS there a way to have a constantly running function that knows when another function is being called so that we can add the values to the input array every time that commitEdit() is called (when the user inputs a value). 
 
-    static JComponent createVerticalSeparator() {
-        JSeparator x = new JSeparator(SwingConstants.VERTICAL);
-        x.setPreferredSize(new Dimension(3,50));
-        return x;
-    }
+
+    /*PROBLEM WITH THIS: how to know which Jtext is currently being edited, otherwise you need to loop through the array of texts every time a key is pressed which is wasteful.
+    public void keyReleased(KeyEvent e) {
+	try {
+	    .commitEdit();
+	} catch (ParseException f) {
+	   
+	}
+	System.out.println(.getValue()); 
+	}*/
+
+    // ^^^^^ https://stackoverflow.com/questions/38396545/keylistener-with-jformattedtextfield
 
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
+	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
+		    if(puzzle.getInput(i,j) != 0){
+			texts[i][j].setText("" + puzzle.getInput(i,j ));
 
-		    texts[i][j].setText("" + puzzle.getData(i,j ));
-		    //b.addActionListener(this);
-		    texts[i][j].setEditable(true);
-		    //texts[i][j]= b;
-		    //sudokuPane.add(b);
+			texts[i][j].setEditable(false); 
+
+		    }else{
+			texts[i][j].setForeground(Color.BLUE);
+		    }
+
 		}
 	    }
 
 
 	}
+	if(s.equals("Display Solution")){
+	    for(int i = 0; i < 9; i++){                
+		for(int j = 0; j < 9; j++){
+		    texts[i][j].setText("" + puzzle.getData(i, j));
+		}
+	    }
+	}
+	if(s.equals("Check Answers")){ // THIS DOESN"T WORK RIGHT NOW DON'T PRESS IT
+	    for(int i = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+		    if(texts[i][j].getValue().equals("" + puzzle.getData(i, j))){
+			texts[i][j].setForeground(Color.GREEN);
+		    }else{
+			texts[i][j].setForeground(Color.RED);
+		    }
+                }
+            }
+        }
     }
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();

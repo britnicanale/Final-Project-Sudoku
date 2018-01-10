@@ -31,7 +31,7 @@ public class Sudoku {
         
     }
     public int getInput(int row, int col) {
-	createPuzzle();
+	//createPuzzle();
 	return input[row][col];
     }
 
@@ -56,8 +56,8 @@ public class Sudoku {
 	return true;
     }
 
-    public String displaySolution(){
-	return "";
+    public void displaySolution(){
+	
     }
 
     public boolean checkAnswer(){
@@ -68,10 +68,10 @@ public class Sudoku {
 	return true;
     }
 
-    private void createPuzzle(){
+    public void createPuzzle(){
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
-		int a = randgen.nextInt(50);
+		int a = randgen.nextInt(3);
 		if (a == 0) {
 		    input[i][x] = 0;
 		}
@@ -79,5 +79,7 @@ public class Sudoku {
 	}
     }
 
-    public void changeInput(int row, int col, int value){}
+    public void changeInput(int row, int col, int value){
+	input[row][col]=value;
+    }
 }

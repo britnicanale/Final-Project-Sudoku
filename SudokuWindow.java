@@ -30,6 +30,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	//NOTE: THE NEXT SIX LINES ARE EDITED BUT TAKEN FROM THE FOLLOWING LINK: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java  I used this because I am having a problem with panes that I cannot solve and am using this for testing purposes at the moment
 
 	pane = new JPanel(new BorderLayout());
+	pane.setBackground(Color.WHITE);
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 

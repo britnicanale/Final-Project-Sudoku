@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.text.NumberFormat;
+import javax.swing.text.NumberFormatter;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
@@ -12,7 +14,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
-    private JTextField[][] texts;
+    private JFormattedTextField[][] texts;
     //private JTextField b;
     public SudokuWindow(){
 
@@ -29,6 +31,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
+	//createVerticalSeparator();
+
+	//sudokuPane.add(new JSeparator(JSeparator.VERTICAL));
+
 	buttonPane = new JPanel();
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
@@ -44,18 +50,42 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	buttonPane.add(createPuzzle);
 
 	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
-	texts = new JTextField[9][9];
+	texts = new JFormattedTextField[9][9];
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
-	    for(int j = 0; j < 9; j++){	
-		JTextField b = new JTextField("");
+
+	    for(int j = 0; j < 9; j++){
+		
+		NumberFormat intFormat = NumberFormat.getNumberInstance();
+
+		NumberFormatter formatter = new NumberFormatter(intFormat);
+
+		formatter.setValueClass(Integer.class);
+		formatter.setMinimum(1);
+		formatter.setMaximum(9);
+		formatter.setAllowsInvalid(false);
+		formatter.setCommitsOnValidEdit(true);
+		JFormattedTextField b = new JFormattedTextField(formatter);
+
+
+
 		b.addActionListener(this);
-		//b.setEditable(true);
+		b.setEditable(true);
 		texts[i][j]= b;
 		sudokuPane.add(b);
 	    }
-	    }
+	}
+	
+
     }
+
+
+    static JComponent createVerticalSeparator() {
+        JSeparator x = new JSeparator(SwingConstants.VERTICAL);
+        x.setPreferredSize(new Dimension(3,50));
+        return x;
+    }
+
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){

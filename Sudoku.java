@@ -53,6 +53,10 @@ public class Sudoku {
 	return input[row][col];
     }
 
+    public void setInput(int row, int col, int value) {
+	input[row][col] = value;
+    }
+    
     public int getData(int row, int col) {   
 	return data[row][col];
     }
@@ -77,9 +81,13 @@ public class Sudoku {
     public void createPuzzle(){
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
+		//input[i][x] = data[i][x];
 		int a = randgen.nextInt(3);
 		if (a == 0) {
 		    input[i][x] = 0;
+		}
+		else {
+		    input[i][x] = data[i][x];
 		}
 	    }
 	}

@@ -31,7 +31,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	//NOTE: THE NEXT SIX LINES ARE EDITED BUT TAKEN FROM THE FOLLOWING LINK: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java  I used this because I am having a problem with panes that I cannot solve and am using this for testing purposes at the moment
 
 	pane = new JPanel(new BorderLayout());
-	pane.setBackground(Color.WHITE);
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
@@ -97,7 +96,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(1);
 		formatter.setMaximum(9);
-		formatter.setAllowsInvalid(false);    //BRITNI: PROBLEM > This doesn't allow null values, so you can't delete an inputted number.
+		formatter.setAllowsInvalid(false);    
 		formatter.setCommitsOnValidEdit(true);//BRITNI: If I can add a keylistener to enter, I can find my way around this. That, or I can use the pre-existing one in JFormattedTextField, if I can figure out how to access it (Basically, it saves the value and the text separately and if the text is valid it makes it the value when you press enter, so if I can get in there I can do the same thing and accept null. 
 		JFormattedTextField b = new JFormattedTextField(formatter);
 		b.setHorizontalAlignment(JTextField.CENTER);
@@ -133,15 +132,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
+		    texts[i][j].setText(null);
+		    texts[i][j].setEditable(true);
 		    if(puzzle.getInput(i,j) != 0){
-			texts[i][j].setText("" + puzzle.getInput(i,j ));
-
+			texts[i][j].setText("" + puzzle.getInput(i, j));
+			texts[i][j].setForeground(Color.BLACK);
 			texts[i][j].setEditable(false); 
-
-		    }else{
-			texts[i][j].setForeground(Color.BLUE);
+			
+			//}else{
+			//texts[i][j].setForeground(Color.BLUE);
+			//}
+			
 		    }
-
 		}
 	    }
 
@@ -172,8 +174,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	if (s.equals("Clear Puzzle")) { //erases the puzzle to a blank board
 	    for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
-		    //texts[i][j] = null;
-		    texts[i][j].setText("");
+		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);
 		}
 	    }

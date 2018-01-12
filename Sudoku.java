@@ -1,5 +1,5 @@
 import java.util.Random;
-import java.util.Random;
+import java.util.ArrayList;
 
 
 public class Sudoku {
@@ -13,6 +13,7 @@ public class Sudoku {
 	input = new int[9][9];
 	actual = new int[9][9];
 	randgen = new Random();
+	/*
 	int a = randgen.nextInt(2);
 	if (a == 0) {
 	    actual = new int[][]{     //this is a real solution--we will work with it until we get the generator up and running
@@ -40,13 +41,51 @@ public class Sudoku {
 		{9,7,8,3,1,2,6,4,5}
 	    };
 	}
+	
+
+LONG VERSION OLD
+	for (int i = 0; i < 9; i++) {
+            for (int x = 0; x < 9; x++) {
+		//int[] bad = new int[8];
+                data[i][x] = randgen.nextInt(9);
+		while(!(checkRow(i, x) && (checkCol(i,x) && checkBox(i,x)))){
+		    data[i][x] = randgen.nextInt(9);
+		}
+            }
+        }
+
+	
+	//Long Version New
+	ArrayList<Integer> pos = new ArrayList<Integer>();
+	for(int i = 0; i < 9; i++){
+	    pos.add(i);
+	}
+*/
+
+	ArrayList<Integer> pos = new ArrayList<Integer>();
+	for (int i = 0; i < 9; i++) {
+	    pos.clear();
+	    for(int j = 0; j < 9; j++){
+		pos.add(j);
+	    }
+            for (int x = 0; x < 9; x++) {
+		int col = pos.get(randgen.nextInt(pos.size()));;
+		System.out.println(pos.size()+ " " + col);
+		while("" + data[i][col] == null && !(checkBox(i, col) && checkCol(i, col))){
+		    pos.remove(col);
+		    System.out.println(pos.size());
+		    col = pos.get(randgen.nextInt(pos.size()));
+		}
+		data[i][col] = x;
+		System.out.println("added " + x + " to "+  i + ", " + col);
+	    }
+	}
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		data[i][x] = actual[i][x];
 		input[i][x] = actual[i][x];
 	    }
 	}
-        
     }
     public int getInput(int row, int col) {
 	//createPuzzle();
@@ -62,16 +101,33 @@ public class Sudoku {
 
     public Sudoku(int seed) {}
 
-    private boolean checkRows(){
+    private boolean checkRow(int row, int col){
+	for(int col2 = 0; col2 < 9; col2++){
+	    if(data[row][col2] == data[row][col] && col2 != col){
+		return false;
+	    }
+	}
 	return true;
     }
 
-    private boolean checkColumns(){
-	return true;
+    private boolean checkCol(int row, int col){
+        for(int row2 = 0; row2 < 9; row2++){
+            if(data[row2][col] == data[row][col] && row2 != row){
+                return false;
+            }
+	}
+        return true;
     }
 
-    private boolean checkBoxes(){
-	return true;
+    private boolean checkBox(int row, int col){
+	for(int r = row / 3; r < row / 3 + 3; r ++){
+	    for(int c = col / 3; c < col / 3 + 3; c ++){
+		if(data[r][c] == data[row][col] && (row != r && col != c)){
+		    return false;
+		}
+	    }
+	}
+	return true; 	
     }
 
     public void createPuzzle(){

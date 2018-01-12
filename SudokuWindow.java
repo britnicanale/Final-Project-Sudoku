@@ -20,7 +20,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     //private JTextField b;
     public SudokuWindow(){
 
-	puzzle = new Sudoku();
+	//puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
         this.setSize(600,600);
@@ -130,6 +130,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
+	    Sudoku puzzle = new Sudoku();
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){

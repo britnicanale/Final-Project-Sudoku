@@ -1,17 +1,17 @@
 import java.util.Random;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 public class Sudoku {
-    private int[][] data;
-    private int[][] input;
+    private Integer[][] data;
+    private Integer[][] input;
     private Random randgen;
-    private int[][] actual;
+    private Integer[][] actual;
 
     public Sudoku() {                           //just put in values to get grid working
-	data = new int[9][9];
-	input = new int[9][9];
-	actual = new int[9][9];
+	data = new Integer[9][9];
+	input = new Integer[9][9];
+	actual = new Integer[9][9];
 	randgen = new Random();
 	/*
 	int a = randgen.nextInt(2);
@@ -63,21 +63,41 @@ LONG VERSION OLD
 */
 
 	ArrayList<Integer> pos = new ArrayList<Integer>();
-	for (int i = 0; i < 9; i++) {
+	ArrayList<Integer> nums = new ArrayList<Integer>();
+	for (Integer i = 1; i < 10; i++) {
 	    pos.clear();
 	    for(int j = 0; j < 9; j++){
 		pos.add(j);
 	    }
             for (int x = 0; x < 9; x++) {
-		int col = pos.get(randgen.nextInt(pos.size()));;
-		System.out.println(pos.size()+ " " + col);
-		while("" + data[i][col] == null && !(checkBox(i, col) && checkCol(i, col))){
-		    pos.remove(col);
-		    System.out.println(pos.size());
-		    col = pos.get(randgen.nextInt(pos.size()));
+	        nums.clear();
+		for(int k = 0; k < pos.size(); k++){
+		    nums.add(pos.get(k));
 		}
-		data[i][col] = x;
-		System.out.println("added " + x + " to "+  i + ", " + col);
+		int col = nums.get(randgen.nextInt(nums.size()));
+		//System.out.println(nums.size()+ " " + col);
+		
+		while(data[x][col] != null || !(checkBox(x, col, i) && checkCol(x, col, i))){
+		    System.out.println(checkBox(x, col, i));
+		    System.out.println(checkCol(x, col, i));
+		    System.out.println("Tried to add " + i + " to " + x + ", " + col + "; size: " + nums.size());
+		    nums.remove(nums.indexOf(col));
+		    //System.out.println(nums.size());
+		    col = nums.get(randgen.nextInt(nums.size()));
+		    //data[i][col] = x;
+		}
+		System.out.println(Arrays.toString(data[0]));
+		System.out.println(Arrays.toString(data[1]));
+		System.out.println(Arrays.toString(data[2]));
+		System.out.println(Arrays.toString(data[3]));
+		System.out.println(Arrays.toString(data[4]));
+		System.out.println(Arrays.toString(data[5]));
+		System.out.println(Arrays.toString(data[6]));
+		System.out.println(Arrays.toString(data[7]));
+		System.out.println(Arrays.toString(data[8]));
+		data[x][col] = i;
+		pos.remove(pos.indexOf(col));
+		System.out.println("added " + i + " to "+  x + ", " + col);
 	    }
 	}
 	for (int i = 0; i < 9; i++) {
@@ -95,9 +115,21 @@ LONG VERSION OLD
     public int getData(int row, int col) {   
 	return data[row][col];
     }
-    public int[][] getData() {
+    public Integer[][] getData() {
 	return data;
     }
+
+    public String toString(){                                       //toString loops through all values in the 2D Array, separates them with spaces and   
+        String retStr = "";                                         //separates each inner Array with a new line.                                         
+        for(int index =0; index < data.length; index++){
+            for (int subIndex = 0; subIndex < data[index].length; subIndex++){
+                retStr += data[index][subIndex] + " ";
+            }
+            retStr+= "\n";
+        }
+        return retStr;
+    }
+
 
     public Sudoku(int seed) {}
 
@@ -110,19 +142,20 @@ LONG VERSION OLD
 	return true;
     }
 
-    private boolean checkCol(int row, int col){
+    private boolean checkCol(int row, int col, Integer val){
         for(int row2 = 0; row2 < 9; row2++){
-            if(data[row2][col] == data[row][col] && row2 != row){
+            if((data[row2][col] != null && data[row2][col].equals(val)) && row2 != row){
                 return false;
             }
 	}
         return true;
     }
 
-    private boolean checkBox(int row, int col){
-	for(int r = row / 3; r < row / 3 + 3; r ++){
-	    for(int c = col / 3; c < col / 3 + 3; c ++){
-		if(data[r][c] == data[row][col] && (row != r && col != c)){
+	private boolean checkBox(int row, int col, Integer val){
+	for(int r = (row / 3) * 3; r <(row / 3)*3 + 3; r ++){
+	    for(int c = (col / 3) * 3; c <( col / 3) * 3  + 3; c ++){
+		System.out.println("Checking box " + r + ", " + c);
+		if((data[r][c] != null && data[r][c].equals(val)) && (row != r && col != c)){
 		    return false;
 		}
 	    }

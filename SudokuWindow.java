@@ -8,12 +8,13 @@ import javax.swing.text.NumberFormatter;
 import java.text.*;
 import java.awt.Font;
 import javax.swing.border.*;
+import java.util.Random;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
     //private Container pane;
     private Sudoku puzzle;
-
+    private Random randgen;
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
@@ -22,9 +23,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public SudokuWindow(){
 
 	puzzle = new Sudoku();
-
+	randgen = new Random();
 	this.setTitle("Sudoku");
-        this.setSize(600,600);
+        this.setSize(650,650);
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
@@ -51,6 +52,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton displaySolution = new JButton("Display Solution");
 	JButton checkAnswers = new JButton("Check Answers");
 	JButton clearPuzzle = new JButton("Clear Puzzle");
+	JButton hint = new JButton("Hint");
 
 	displaySolution.addActionListener(this);
 
@@ -59,11 +61,14 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	createPuzzle.addActionListener(this);
 
 	clearPuzzle.addActionListener(this);
-	
-	buttonPane.add(clearPuzzle);
+
+	hint.addActionListener(this);
+
 	buttonPane.add(createPuzzle);
+	buttonPane.add(clearPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
+	buttonPane.add(hint);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -151,9 +156,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);
+		    texts[i][j].setForeground(Color.BLACK);
 		    if(puzzle.getInput(i,j) != 0){
 			texts[i][j].setText("" + puzzle.getInput(i, j));
-			texts[i][j].setForeground(Color.BLACK);
 			texts[i][j].setEditable(false); 
 			
 			//}else{
@@ -170,6 +175,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
+		    texts[i][j].setEditable(false);
 		}
 	    }
 	}
@@ -180,6 +186,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			if((int)texts[i][j].getValue() == puzzle.getData(i, j)){
 			    if (texts[i][j].isEditable()) {
 				texts[i][j].setForeground(Color.GREEN);
+				texts[i][j].setEditable(false);
 			    }
 			}else{
 			    texts[i][j].setForeground(Color.RED);
@@ -196,16 +203,21 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	}
+	if (s.equals("Hint")) {
+	    boolean added = false;
+	    int x, i;
+	    while (!(added)) {
+		x = randgen.nextInt(9);
+		i = randgen.nextInt(9);
+		if(texts[i][x].isEditable() && !(added)) {
+		    texts[i][x].setText("" + puzzle.getData(i, x));
+		    texts[i][x].setForeground(Color.BLACK);
+		    texts[i][x].setEditable(false);
+		    added = true;
+		}
+	    }
+	}
     }
-    /*public void paintComponent(Graphics g) {
-	super.paintComponent(g);
-	int width = getWidth();
-	int height = getHeight();
-	
-	g.setColor(Color.BLACK); // SETS COLOR OF THE LINE
-	g.drawLine(0, height/2, width, height/2); // X-AXIS STRAIGHT DOWN (ACROSS?) THE MIDDLE
-	g.drawLine(width/2, 0, width/2, height); // Y-AXIS STRAIGHT DOWN THE MIDDLE
-	}*/
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();
 	s.setVisible(true);

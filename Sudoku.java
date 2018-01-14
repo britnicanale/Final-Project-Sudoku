@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Random;
 
 
 public class Sudoku {
@@ -83,11 +82,11 @@ public class Sudoku {
 	    for (int x = 0; x < 9; x++) {
 		//input[i][x] = data[i][x];
 		int a = randgen.nextInt(3);
-		if (a == 0) {
-		    input[i][x] = 0;
+		if (a == 0 ) {
+		    input[i][x] = data[i][x];
 		}
 		else {
-		    input[i][x] = data[i][x];
+		    input[i][x] = 0;
 		}
 	    }
 	}

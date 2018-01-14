@@ -7,6 +7,7 @@ import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
 import java.text.*;
 import java.awt.Font;
+import javax.swing.border.*;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
@@ -104,6 +105,22 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		b.addActionListener(this);
 		b.setEditable(true);
 		texts[i][j]= b;
+		if ((i == 2 || i == 5) && (j == 2 || j == 5)) {
+		    Border border = BorderFactory.createMatteBorder(1, 1, 3, 3, Color.BLACK);
+		    b.setBorder(border);
+		}
+		else if (i == 2 || i == 5) {
+		    Border border = BorderFactory.createMatteBorder(1, 1, 3, 1, Color.BLACK);
+		    b.setBorder(border);
+		}
+		else if (j == 2 || j == 5) {
+		    Border border = BorderFactory.createMatteBorder(1, 1, 1, 3, Color.BLACK);
+		    b.setBorder(border);
+		}
+		else {
+		    Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK);
+		    b.setBorder(border);
+		}
 		sudokuPane.add(b);
 	    }
 	}
@@ -180,6 +197,15 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	}
     }
+    /*public void paintComponent(Graphics g) {
+	super.paintComponent(g);
+	int width = getWidth();
+	int height = getHeight();
+	
+	g.setColor(Color.BLACK); // SETS COLOR OF THE LINE
+	g.drawLine(0, height/2, width, height/2); // X-AXIS STRAIGHT DOWN (ACROSS?) THE MIDDLE
+	g.drawLine(width/2, 0, width/2, height); // Y-AXIS STRAIGHT DOWN THE MIDDLE
+	}*/
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();
 	s.setVisible(true);

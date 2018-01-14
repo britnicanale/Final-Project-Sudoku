@@ -11,20 +11,20 @@ import javax.swing.border.*;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
-    //private Container pane;
-    private Sudoku puzzle;
 
+    private Sudoku puzzle;
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
-    private JFormattedTextField[][] texts; // https://docs.oracle.com/javase/tutorial/uiswing/components/formattedtextfield.html#factory          https://docs.oracle.com/javase/8/docs/api/javax/swing/JFormattedTextField.html
-    //private JTextField b;
+    private JPanel buttonPane2;    
+    private JFormattedTextField[][] texts; 
+
     public SudokuWindow(){
 
 	puzzle = new Sudoku();
 
 	this.setTitle("Sudoku");
-        this.setSize(600,600);
+        this.setSize(650,600);
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
@@ -35,13 +35,13 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	//createVerticalSeparator();
-
-	//sudokuPane.add(new JSeparator(JSeparator.VERTICAL));
-
 	buttonPane = new JPanel();
 
+	buttonPane2 = new JPanel(new FlowLayout());
+
 	pane.add(sudokuPane, BorderLayout.CENTER);
+
+	pane.add(buttonPane2, BorderLayout.EAST);
 
 	pane.add(buttonPane, BorderLayout.PAGE_END);
 
@@ -51,6 +51,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton displaySolution = new JButton("Display Solution");
 	JButton checkAnswers = new JButton("Check Answers");
 	JButton clearPuzzle = new JButton("Clear Puzzle");
+
+	JButton random = new JButton("whoops");
+	buttonPane2.add(random);
 
 	displaySolution.addActionListener(this);
 
@@ -67,26 +70,16 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
-	//pane.setLayout(new GridLayout(9, 9));                      //Creates a 9 x 9 Grid for the board
 	texts = new JFormattedTextField[9][9];
 
 	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
 
 	    for(int j = 0; j < 9; j++){
 
-		NumberFormat intFormat = NumberFormat.getNumberInstance(); // https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html  https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers   https://docs.oracle.com/javase/7/docs/api/java/text/Format.html
-
-		//NumberFormatter formatter = new NumberFormatter(intFormat);
+		NumberFormat intFormat = NumberFormat.getNumberInstance(); 
 
 		//THIS NUMBERFORMATTER STUFF IS TAKEN FROM https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html
 		NumberFormatter formatter = new NumberFormatter(intFormat) {
-			// we have to allow the empty string, the call chain is
-			//      DefaultFormatter
-			//              DefaultDocumentFilter.remove
-			//              replace
-			//              canReplace
-			//              isValidEdit
-			//              stringToValue
 			public Object stringToValue(String string) throws ParseException {
 			    if (string == null || string.length() == 0) {
 				return null;
@@ -98,7 +91,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		formatter.setMinimum(1);
 		formatter.setMaximum(9);
 		formatter.setAllowsInvalid(false);    
-		formatter.setCommitsOnValidEdit(true);//BRITNI: If I can add a keylistener to enter, I can find my way around this. That, or I can use the pre-existing one in JFormattedTextField, if I can figure out how to access it (Basically, it saves the value and the text separately and if the text is valid it makes it the value when you press enter, so if I can get in there I can do the same thing and accept null. 
+		formatter.setCommitsOnValidEdit(true);
 		JFormattedTextField b = new JFormattedTextField(formatter);
 		b.setHorizontalAlignment(JTextField.CENTER);
 		b.setFont(font);
@@ -128,20 +121,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     }
 
-    //THING TO ASK MR K: IS there a way to have a constantly running function that knows when another function is being called so that we can add the values to the input array every time that commitEdit() is called (when the user inputs a value). 
-
-
-    /*PROBLEM WITH THIS: how to know which Jtext is currently being edited, otherwise you need to loop through the array of texts every time a key is pressed which is wasteful.
-    public void keyReleased(KeyEvent e) {
-	try {
-	    .commitEdit();
-	} catch (ParseException f) {
-	   
-	}
-	System.out.println(.getValue()); 
-	}*/
-
-    // ^^^^^ https://stackoverflow.com/questions/38396545/keylistener-with-jformattedtextfield
 
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
@@ -156,16 +135,15 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][j].setForeground(Color.BLACK);
 			texts[i][j].setEditable(false); 
 			
-			//}else{
-			//texts[i][j].setForeground(Color.BLUE);
-			//}
-			
+		    }else{
+			texts[i][j].setForeground(Color.BLUE);
 		    }
+			
 		}
 	    }
-
-
 	}
+
+
 	if(s.equals("Display Solution")){
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
@@ -175,7 +153,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	}
 	if(s.equals("Check Answers")){ // If not null, compare the input to the data
 	    for(int i = 0; i < 9; i++){         //turn green if correct, red if not
-                for(int j = 0; j < 9; j++){
+		for(int j = 0; j < 9; j++){
 		    if (texts[i][j].getValue() != null) {                        
 			if((int)texts[i][j].getValue() == puzzle.getData(i, j)){
 			    if (texts[i][j].isEditable()) {
@@ -186,8 +164,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			}
 		    }
 		}
-            }
-        }
+	    }
+	}
 	if (s.equals("Clear Puzzle")) { //erases the puzzle to a blank board
 	    for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {

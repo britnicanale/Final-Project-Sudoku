@@ -156,10 +156,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);
-		    texts[i][j].setForeground(Color.BLACK);
+		    texts[i][j].setForeground(Color.BLUE);
 		    if(puzzle.getInput(i,j) != 0){
 			texts[i][j].setText("" + puzzle.getInput(i, j));
-			texts[i][j].setEditable(false); 
+			texts[i][j].setEditable(false);
+			texts[i][j].setForeground(Color.BLACK);
 			
 			//}else{
 			//texts[i][j].setForeground(Color.BLUE);

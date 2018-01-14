@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Random;
 
 
 public class Sudoku {
@@ -13,6 +12,7 @@ public class Sudoku {
 	input = new int[9][9];
 	actual = new int[9][9];
 	randgen = new Random();
+	
 	int a = randgen.nextInt(2);
 	if (a == 0) {
 	    actual = new int[][]{     //this is a real solution--we will work with it until we get the generator up and running
@@ -39,17 +39,15 @@ public class Sudoku {
 		{6,4,5,9,7,8,3,1,2},
 		{9,7,8,3,1,2,6,4,5}
 	    };
-	}
+	}	
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		data[i][x] = actual[i][x];
 		input[i][x] = actual[i][x];
 	    }
 	}
-        
     }
     public int getInput(int row, int col) {
-	//createPuzzle();
 	return input[row][col];
     }
 
@@ -66,28 +64,45 @@ public class Sudoku {
 
     public Sudoku(int seed) {}
 
-    private boolean checkRows(){
+    private boolean checkRow(int row, int col){
+	/*for(int col2 = 0; col2 < 9; col2++){
+	    if(data[row][col2] == data[row][col] && col2 != col){
+		return false;
+	    }
+	    }*/
 	return true;
     }
 
-    private boolean checkColumns(){
-	return true;
+    private boolean checkCol(int row, int col, int val){
+        /*for(int row2 = 0; row2 < 9; row2++){
+            if((data[row2][col] != null && data[row2][col].equals(val)) && row2 != row){
+                return false;
+            }
+	    }*/
+        return true;
     }
 
-    private boolean checkBoxes(){
-	return true;
+	private boolean checkBox(int row, int col, int val){
+	    /*for(int r = (row / 3) * 3; r <(row / 3)*3 + 3; r ++){
+	    for(int c = (col / 3) * 3; c <( col / 3) * 3  + 3; c ++){
+		System.out.println("Checking box " + r + ", " + c);
+		if((data[r][c] != null && data[r][c].equals(val)) && (row != r && col != c)){
+		    return false;
+		}
+	    }
+	    }*/
+	return true; 	
     }
 
     public void createPuzzle(){
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
-		//input[i][x] = data[i][x];
 		int a = randgen.nextInt(3);
-		if (a == 0) {
-		    input[i][x] = 0;
+		if (a == 0 ) {
+		    input[i][x] = data[i][x];
 		}
 		else {
-		    input[i][x] = data[i][x];
+		    input[i][x] = 0;
 		}
 	    }
 	}

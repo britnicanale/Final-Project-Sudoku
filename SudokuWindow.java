@@ -8,23 +8,29 @@ import javax.swing.text.NumberFormatter;
 import java.text.*;
 import java.awt.Font;
 import javax.swing.border.*;
+import java.util.Random;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
 
     private Sudoku puzzle;
+    private Random randgen;
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
     private JPanel buttonPane2;    
     private JFormattedTextField[][] texts; 
 
+
     public SudokuWindow(){
 
 	puzzle = new Sudoku();
+	randgen = new Random();
 
 	this.setTitle("Sudoku");
-        this.setSize(650,600);
+
+        this.setSize(650,575);
+
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
@@ -35,15 +41,16 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel();
+	//buttonPane = new JPanel(new FlowLayout());
 
-	buttonPane2 = new JPanel(new FlowLayout());
+	buttonPane2 = new JPanel();
+	buttonPane2.setLayout(new BoxLayout(buttonPane2, BoxLayout.Y_AXIS));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
 	pane.add(buttonPane2, BorderLayout.EAST);
 
-	pane.add(buttonPane, BorderLayout.PAGE_END);
+	//pane.add(buttonPane, BorderLayout.PAGE_END);
 
 	this.getContentPane().add(pane);
 
@@ -51,9 +58,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton displaySolution = new JButton("Display Solution");
 	JButton checkAnswers = new JButton("Check Answers");
 	JButton clearPuzzle = new JButton("Clear Puzzle");
-
-	JButton random = new JButton("whoops");
-	buttonPane2.add(random);
+	JButton hint = new JButton("Hint");
+	JButton help = new JButton("Help");
+   
 
 	displaySolution.addActionListener(this);
 
@@ -62,11 +69,17 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	createPuzzle.addActionListener(this);
 
 	clearPuzzle.addActionListener(this);
-	
-	buttonPane.add(clearPuzzle);
-	buttonPane.add(createPuzzle);
-	buttonPane.add(displaySolution);
-	buttonPane.add(checkAnswers);
+
+	hint.addActionListener(this);
+
+	help.addActionListener(this);
+
+	buttonPane2.add(createPuzzle);
+	buttonPane2.add(clearPuzzle);
+	buttonPane2.add(displaySolution);
+	buttonPane2.add(checkAnswers);
+	buttonPane2.add(hint);
+	buttonPane2.add(help);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -76,7 +89,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	    for(int j = 0; j < 9; j++){
 
-		NumberFormat intFormat = NumberFormat.getNumberInstance(); 
+
+		NumberFormat intFormat = NumberFormat.getNumberInstance();
+
 
 		//THIS NUMBERFORMATTER STUFF IS TAKEN FROM https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html
 		NumberFormatter formatter = new NumberFormatter(intFormat) {
@@ -121,34 +136,35 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     }
 
-
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
+	    Sudoku puzzle = new Sudoku();
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);
+		    texts[i][j].setForeground(Color.BLUE);
 		    if(puzzle.getInput(i,j) != 0){
 			texts[i][j].setText("" + puzzle.getInput(i, j));
+			texts[i][j].setEditable(false);
 			texts[i][j].setForeground(Color.BLACK);
-			texts[i][j].setEditable(false); 
-			
+
 		    }else{
 			texts[i][j].setForeground(Color.BLUE);
 		    }
-			
+		    
 		}
 	    }
 	}
-
 
 	if(s.equals("Display Solution")){
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
-		    texts[i][j].isEditable(false);
+		    texts[i][j].setEditable(false);
+
 		}
 	    }
 	}
@@ -159,6 +175,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			if((int)texts[i][j].getValue() == puzzle.getData(i, j)){
 			    if (texts[i][j].isEditable()) {
 				texts[i][j].setForeground(Color.GREEN);
+				texts[i][j].setEditable(false);
 			    }
 			}else{
 			    texts[i][j].setForeground(Color.RED);
@@ -175,16 +192,25 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	}
+	if (s.equals("Hint")) {
+	    boolean added = false;
+	    int x, i;
+	    while (!(added)) {
+		x = randgen.nextInt(9);
+		i = randgen.nextInt(9);
+		if(texts[i][x].isEditable() && !(added)) {
+		    texts[i][x].setText("" + puzzle.getData(i, x));
+		    texts[i][x].setForeground(Color.BLACK);
+		    texts[i][x].setEditable(false);
+		    added = true;
+		}
+	    }
+	}
+	if(s.equals("Help")){
+	    HelpWindow h = new HelpWindow();
+	    h.setVisible(true);
+	}
     }
-    /*public void paintComponent(Graphics g) {
-	super.paintComponent(g);
-	int width = getWidth();
-	int height = getHeight();
-	
-	g.setColor(Color.BLACK); // SETS COLOR OF THE LINE
-	g.drawLine(0, height/2, width, height/2); // X-AXIS STRAIGHT DOWN (ACROSS?) THE MIDDLE
-	g.drawLine(width/2, 0, width/2, height); // Y-AXIS STRAIGHT DOWN THE MIDDLE
-	}*/
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();
 	s.setVisible(true);

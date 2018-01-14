@@ -148,6 +148,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
+		    texts[i][j].isEditable(false);
 		}
 	    }
 	}

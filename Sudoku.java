@@ -1,6 +1,5 @@
 import java.util.Random;
 
-
 public class Sudoku {
     private int[][] data;
     private int[][] input;

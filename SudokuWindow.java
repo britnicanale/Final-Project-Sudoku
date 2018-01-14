@@ -41,7 +41,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel(new FlowLayout());
+	//buttonPane = new JPanel(new FlowLayout());
 
 	buttonPane2 = new JPanel();
 	buttonPane2.setLayout(new BoxLayout(buttonPane2, BoxLayout.Y_AXIS));
@@ -50,7 +50,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	pane.add(buttonPane2, BorderLayout.EAST);
 
-	pane.add(buttonPane, BorderLayout.PAGE_END);
+	//pane.add(buttonPane, BorderLayout.PAGE_END);
 
 	this.getContentPane().add(pane);
 
@@ -163,7 +163,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
-		    texts[i][j].setForeground(Color.GREEN);
 		    texts[i][j].setEditable(false);
 		}
 	    }

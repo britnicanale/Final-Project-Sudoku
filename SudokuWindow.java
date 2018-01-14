@@ -12,12 +12,15 @@ import java.util.Random;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
+
     private Sudoku puzzle;
     private Random randgen;
     private JPanel pane;
     private JPanel sudokuPane;
     private JPanel buttonPane;
-    private JFormattedTextField[][] texts;
+    private JPanel buttonPane2;    
+    private JFormattedTextField[][] texts; 
+
 
     public SudokuWindow(){
 
@@ -25,7 +28,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	randgen = new Random();
 
 	this.setTitle("Sudoku");
-        this.setSize(650,650);
+
+        this.setSize(650,575);
+
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
@@ -36,9 +41,14 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel();
+	buttonPane = new JPanel(new FlowLayout());
+
+	buttonPane2 = new JPanel();
+	buttonPane2.setLayout(new BoxLayout(buttonPane2, BoxLayout.Y_AXIS));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
+
+	pane.add(buttonPane2, BorderLayout.EAST);
 
 	pane.add(buttonPane, BorderLayout.PAGE_END);
 
@@ -49,6 +59,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton checkAnswers = new JButton("Check Answers");
 	JButton clearPuzzle = new JButton("Clear Puzzle");
 	JButton hint = new JButton("Hint");
+	JButton help = new JButton("Help");
+   
 
 	displaySolution.addActionListener(this);
 
@@ -60,11 +72,14 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	hint.addActionListener(this);
 
-	buttonPane.add(createPuzzle);
-	buttonPane.add(clearPuzzle);
-	buttonPane.add(displaySolution);
-	buttonPane.add(checkAnswers);
-	buttonPane.add(hint);
+	help.addActionListener(this);
+
+	buttonPane2.add(createPuzzle);
+	buttonPane2.add(clearPuzzle);
+	buttonPane2.add(displaySolution);
+	buttonPane2.add(checkAnswers);
+	buttonPane2.add(hint);
+	buttonPane2.add(help);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -74,7 +89,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	    for(int j = 0; j < 9; j++){
 
+
 		NumberFormat intFormat = NumberFormat.getNumberInstance();
+
 
 		//THIS NUMBERFORMATTER STUFF IS TAKEN FROM https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html
 		NumberFormatter formatter = new NumberFormatter(intFormat) {
@@ -133,7 +150,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][j].setText("" + puzzle.getInput(i, j));
 			texts[i][j].setEditable(false);
 			texts[i][j].setForeground(Color.BLACK);
-			
+
 		    }else{
 			texts[i][j].setForeground(Color.BLUE);
 		    }
@@ -141,17 +158,19 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	}
+
 	if(s.equals("Display Solution")){
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
+		    texts[i][j].setForeground(Color.GREEN);
 		    texts[i][j].setEditable(false);
 		}
 	    }
 	}
 	if(s.equals("Check Answers")){ // If not null, compare the input to the data
 	    for(int i = 0; i < 9; i++){         //turn green if correct, red if not
-                for(int j = 0; j < 9; j++){
+		for(int j = 0; j < 9; j++){
 		    if (texts[i][j].getValue() != null) {                        
 			if((int)texts[i][j].getValue() == puzzle.getData(i, j)){
 			    if (texts[i][j].isEditable()) {
@@ -163,8 +182,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			}
 		    }
 		}
-            }
-        }
+	    }
+	}
 	if (s.equals("Clear Puzzle")) { //erases the puzzle to a blank board
 	    for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
@@ -186,6 +205,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    added = true;
 		}
 	    }
+	}
+	if(s.equals("Help")){
+	    HelpWindow h = new HelpWindow();
+	    h.setVisible(true);
 	}
     }
     public static void main(String[] args){

@@ -2,15 +2,15 @@ import java.util.Random;
 
 
 public class Sudoku {
-    private Integer[][] data;
-    private Integer[][] input;
+    private int[][] data;
+    private int[][] input;
     private Random randgen;
-    private Integer[][] actual;
+    private int[][] actual;
 
     public Sudoku() {                           //just put in values to get grid working
-	data = new Integer[9][9];
-	input = new Integer[9][9];
-	actual = new Integer[9][9];
+	data = new int[9][9];
+	input = new int[9][9];
+	actual = new int[9][9];
 	randgen = new Random();
 	
 	int a = randgen.nextInt(2);
@@ -58,39 +58,39 @@ public class Sudoku {
     public int getData(int row, int col) {   
 	return data[row][col];
     }
-    public Integer[][] getData() {
+    public int[][] getData() {
 	return data;
     }
 
     public Sudoku(int seed) {}
 
     private boolean checkRow(int row, int col){
-	for(int col2 = 0; col2 < 9; col2++){
+	/*for(int col2 = 0; col2 < 9; col2++){
 	    if(data[row][col2] == data[row][col] && col2 != col){
 		return false;
 	    }
-	}
+	    }*/
 	return true;
     }
 
-    private boolean checkCol(int row, int col, Integer val){
-        for(int row2 = 0; row2 < 9; row2++){
+    private boolean checkCol(int row, int col, int val){
+        /*for(int row2 = 0; row2 < 9; row2++){
             if((data[row2][col] != null && data[row2][col].equals(val)) && row2 != row){
                 return false;
             }
-	}
+	    }*/
         return true;
     }
 
-	private boolean checkBox(int row, int col, Integer val){
-	for(int r = (row / 3) * 3; r <(row / 3)*3 + 3; r ++){
+	private boolean checkBox(int row, int col, int val){
+	    /*for(int r = (row / 3) * 3; r <(row / 3)*3 + 3; r ++){
 	    for(int c = (col / 3) * 3; c <( col / 3) * 3  + 3; c ++){
 		System.out.println("Checking box " + r + ", " + c);
 		if((data[r][c] != null && data[r][c].equals(val)) && (row != r && col != c)){
 		    return false;
 		}
 	    }
-	}
+	    }*/
 	return true; 	
     }
 

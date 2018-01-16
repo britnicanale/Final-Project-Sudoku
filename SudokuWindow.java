@@ -41,16 +41,12 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	//buttonPane = new JPanel(new FlowLayout());
-
-	buttonPane2 = new JPanel();
-	buttonPane2.setLayout(new BoxLayout(buttonPane2, BoxLayout.Y_AXIS));
+	buttonPane = new JPanel();
+	buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.Y_AXIS));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
-	pane.add(buttonPane2, BorderLayout.EAST);
-
-	//pane.add(buttonPane, BorderLayout.PAGE_END);
+	pane.add(buttonPane, BorderLayout.EAST);
 
 	this.getContentPane().add(pane);
 
@@ -60,7 +56,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton clearPuzzle = new JButton("Clear Puzzle");
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
-   
+	JButton reset = new JButton("Reset");
 
 	displaySolution.addActionListener(this);
 
@@ -74,12 +70,15 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	help.addActionListener(this);
 
-	buttonPane2.add(createPuzzle);
-	buttonPane2.add(clearPuzzle);
-	buttonPane2.add(displaySolution);
-	buttonPane2.add(checkAnswers);
-	buttonPane2.add(hint);
-	buttonPane2.add(help);
+	reset.addActionListener(this);
+
+	buttonPane.add(createPuzzle);
+	buttonPane.add(clearPuzzle);
+	buttonPane.add(displaySolution);
+	buttonPane.add(checkAnswers);
+	buttonPane.add(hint);
+	buttonPane.add(help);
+	buttonPane.add(reset);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -111,7 +110,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		b.setHorizontalAlignment(JTextField.CENTER);
 		b.setFont(font);
 		b.addActionListener(this);
-		b.setEditable(true);
+		b.setEditable(false);
 		texts[i][j]= b;
 		if ((i == 2 || i == 5) && (j == 2 || j == 5)) {
 		    Border border = BorderFactory.createMatteBorder(1, 1, 3, 3, Color.BLACK);
@@ -209,6 +208,15 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	if(s.equals("Help")){
 	    HelpWindow h = new HelpWindow();
 	    h.setVisible(true);
+	}
+	if(s.equals("Reset")){
+	    for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if(texts[i][j].isEditable()){
+			texts[i][j].setText(null);
+		    }
+                }
+	    }
 	}
     }
     public static void main(String[] args){

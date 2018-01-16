@@ -55,7 +55,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton checkAnswers = new JButton("Check Answers");
 	JButton numErrors = new JButton("Number of Errors:");
 	numErrorsText = new JTextField(2);
-	JButton clearPuzzle = new JButton("Clear Puzzle");
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
@@ -71,8 +70,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	createPuzzle.addActionListener(this);
 
-	clearPuzzle.addActionListener(this);
-
 	hint.addActionListener(this);
 
 	help.addActionListener(this);
@@ -80,7 +77,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	reset.addActionListener(this);
 
 	buttonPane.add(createPuzzle);
-	buttonPane.add(clearPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
 	buttonPane.add(numErrors);
@@ -189,14 +185,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			    texts[i][j].setForeground(Color.RED);
 			}
 		    }
-		}
-	    }
-	}
-	if (s.equals("Clear Puzzle")) { //erases the puzzle to a blank board
-	    for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 9; j++) {
-		    texts[i][j].setText(null);
-		    texts[i][j].setEditable(true);
 		}
 	    }
 	}

@@ -20,11 +20,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JPanel buttonPane;
     private JPanel buttonPane2;    
     private JFormattedTextField[][] texts; 
-
+    private JTextField numErrorsText;
 
     public SudokuWindow(){
 
-	puzzle = new Sudoku();
+	//puzzle = new Sudoku();
 	randgen = new Random();
 
 	this.setTitle("Sudoku");
@@ -53,6 +53,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton createPuzzle = new JButton("Create Puzzle");
 	JButton displaySolution = new JButton("Display Solution");
 	JButton checkAnswers = new JButton("Check Answers");
+	JButton numErrors = new JButton("Number of Errors:");
+	numErrorsText = new JTextField(2);
 	JButton clearPuzzle = new JButton("Clear Puzzle");
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
@@ -62,6 +64,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	checkAnswers.addActionListener(this);
 	
+	numErrors.addActionListener(this);
+
+	numErrorsText.addActionListener(this);
+	numErrorsText.setEditable(false);
+
 	createPuzzle.addActionListener(this);
 
 	clearPuzzle.addActionListener(this);
@@ -76,7 +83,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	buttonPane.add(clearPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
-	buttonPane.add(hint);
+	buttonPane.add(numErrors);
+	buttonPane.add(numErrorsText);
+     	buttonPane.add(hint);
 	buttonPane.add(help);
 	buttonPane.add(reset);
 
@@ -138,7 +147,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
-	    Sudoku puzzle = new Sudoku();
+	    puzzle = new Sudoku();
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
@@ -217,6 +226,19 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
                 }
 	    }
+	}
+	if(s.equals("Number of Errors:")){
+	    int numErrs = 0;
+	    for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+		    if(texts[i][j].getValue() != null){
+			if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
+			    numErrs++;
+			}
+		    }
+		}
+	    }
+	    numErrorsText.setText("" + numErrs);
 	}
     }
     public static void main(String[] args){

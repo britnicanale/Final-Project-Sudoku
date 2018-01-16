@@ -144,6 +144,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
 	    puzzle = new Sudoku();
+
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
@@ -154,11 +155,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][j].setText("" + puzzle.getInput(i, j));
 			texts[i][j].setEditable(false);
 			texts[i][j].setForeground(Color.BLACK);
-
-		    }else{
-			texts[i][j].setForeground(Color.BLUE);
 		    }
-		    
 		}
 	    }
 	}
@@ -166,6 +163,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	if(s.equals("Display Solution")){
 	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
+		    texts[i][j].setForeground(Color.BLACK);
 		    texts[i][j].setText("" + puzzle.getData(i, j));
 		    texts[i][j].setEditable(false);
 
@@ -181,7 +179,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 				texts[i][j].setForeground(Color.GREEN);
 				texts[i][j].setEditable(false);
 			    }
-			}else{
+			}
+			else if (texts[i][j].isEditable()){
 			    texts[i][j].setForeground(Color.RED);
 			}
 		    }

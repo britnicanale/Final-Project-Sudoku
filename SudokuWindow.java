@@ -234,13 +234,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	    numErrorsText.setText("" + numErrs);
 	}
-	if(s.equals("Submit")){
+	if(s.equals("Submit") && puzzle != null){
 	    for(int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
 		    if(texts[i][j].getValue() != null){
 			if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
 			    //OPEN ERROR WINDOW;
+			    ErrorWindow ew = new ErrorWindow();
+			    ew.setVisible(true);
 			}
+		    }else{
+			ErrorWindow ew = new ErrorWindow();
+			ew.setVisible(true);
 		    }
 		}
 	    }

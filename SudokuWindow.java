@@ -29,7 +29,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	this.setTitle("Sudoku");
 
-        this.setSize(650,575);
+        this.setSize(650,550);
 
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,8 +41,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel();
-	buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.Y_AXIS));
+	buttonPane = new JPanel(new GridLayout(9, 1));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
@@ -58,6 +57,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
+	JButton submit = new JButton("Submit");
 
 	displaySolution.addActionListener(this);
 
@@ -76,6 +76,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	reset.addActionListener(this);
 
+	submit.addActionListener(this);
+
 	buttonPane.add(createPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
@@ -84,6 +86,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
      	buttonPane.add(hint);
 	buttonPane.add(help);
 	buttonPane.add(reset);
+	buttonPane.add(submit);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -154,7 +157,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][j].setText("" + puzzle.getInput(i, j));
 			texts[i][j].setEditable(false);
 			texts[i][j].setForeground(Color.BLACK);
-
 		    }else{
 			texts[i][j].setForeground(Color.BLUE);
 		    }
@@ -164,12 +166,16 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	}
 
 	if(s.equals("Display Solution")){
-	    for(int i = 0; i < 9; i++){                
+	    /*	    for(int i = 0; i < 9; i++){                
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText("" + puzzle.getData(i, j));
 		    texts[i][j].setEditable(false);
 
 		}
+		}*/
+	    if(puzzle != null){
+		SolutionWindow sw = new SolutionWindow(puzzle.getData());
+		sw.setVisible(true);
 	    }
 	}
 	if(s.equals("Check Answers")){ // If not null, compare the input to the data
@@ -228,7 +234,20 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	    numErrorsText.setText("" + numErrs);
 	}
+	if(s.equals("Submit")){
+	    for(int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+		    if(texts[i][j].getValue() != null){
+			if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
+			    //OPEN ERROR WINDOW;
+			}
+		    }
+		}
+	    }
+	    //OPEN WINNER WINDOW;
+	}
     }
+
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow();
 	s.setVisible(true);

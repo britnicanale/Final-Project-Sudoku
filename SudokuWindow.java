@@ -58,7 +58,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
-
+	
 	displaySolution.addActionListener(this);
 
 	checkAnswers.addActionListener(this);
@@ -136,17 +136,32 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sudokuPane.add(b);
 	    }
 	}
-	
-
     }
+    
+    Timer timer = new Timer(1000, new ActionListener() {
+	    timer.start();
+	    public void actionPerformed(ActionEvent e) {
+		boolean time = true;
+		for (int i = 0; i < 9; i++) {
+		    for (int x = 0; x < 9; x++) {
+			    if (texts[i][x] != puzzle.getData(i, x)) {
+				time = false;
+			    }
+		    }
+		    }
+		if (time) {
+		    timer.stop();
+		}
+	    }
+	}
+	
+	public void actionPerformed(ActionEvent e){
+	    String s = e.getActionCommand();
+	    if(s.equals("Create Puzzle")){
+		puzzle = new Sudoku();
 
-    public void actionPerformed(ActionEvent e){
-	String s = e.getActionCommand();
-	if(s.equals("Create Puzzle")){
-	    puzzle = new Sudoku();
-
-	    puzzle.createPuzzle();   //We need to clear board first
-	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
+		puzzle.createPuzzle();   //We need to clear board first
+		for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);

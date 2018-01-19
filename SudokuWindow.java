@@ -21,10 +21,12 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JPanel buttonPane2;    
     private JFormattedTextField[][] texts; 
     private JTextField numErrorsText;
+    private Timer timer;
+
+    public final static int ONE_SECOND = 1000;
 
     public SudokuWindow(){
-
-	//puzzle = new Sudoku();
+	
 	randgen = new Random();
 
 	this.setTitle("Sudoku");
@@ -58,6 +60,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
+	//JTextField seed = new JTextField("Load Puzzle");
 	
 	displaySolution.addActionListener(this);
 
@@ -136,32 +139,36 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sudokuPane.add(b);
 	    }
 	}
+	timer = new Timer(ONE_SECOND, new ActionListener() {
+		public void actionPerformed(ActionEvent evt) {
+		    boolean finish = true;
+		    timer.start();
+		
+		    for (int i = 0; i < 9; i++) {
+			for (int x = 0; x < 9; x++) {
+			    if ((int)texts[i][x].getValue() != puzzle.getData(i, x)) {
+				finish = false;
+			    }
+			}
+		    }
+		    if (finish) {
+			timer.stop();
+		    }
+		}
+	    });
+	//pane.add(timer, BorderLayout.EAST);
+	this.getContentPane().add(pane);
     }
     
-    Timer timer = new Timer(1000, new ActionListener() {
-	    timer.start();
-	    public void actionPerformed(ActionEvent e) {
-		boolean time = true;
-		for (int i = 0; i < 9; i++) {
-		    for (int x = 0; x < 9; x++) {
-			    if (texts[i][x] != puzzle.getData(i, x)) {
-				time = false;
-			    }
-		    }
-		    }
-		if (time) {
-		    timer.stop();
-		}
-	    }
-	}
-	
-	public void actionPerformed(ActionEvent e){
-	    String s = e.getActionCommand();
-	    if(s.equals("Create Puzzle")){
-		puzzle = new Sudoku();
 
-		puzzle.createPuzzle();   //We need to clear board first
-		for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
+    public void actionPerformed(ActionEvent e){
+	String s = e.getActionCommand();
+	if(s.equals("Create Puzzle")){
+	    puzzle = new Sudoku();
+	    
+	    puzzle.createPuzzle();
+	    
+	    for(int i = 0; i < 9; i++){                               //Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
 		    texts[i][j].setText(null);
 		    texts[i][j].setEditable(true);
@@ -174,15 +181,19 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	}
-
+	
 	if(s.equals("Display Solution")){
-	    for(int i = 0; i < 9; i++){                
-		for(int j = 0; j < 9; j++){
-		    texts[i][j].setForeground(Color.BLACK);
-		    texts[i][j].setText("" + puzzle.getData(i, j));
-		    texts[i][j].setEditable(false);
-
+	    try {
+		for(int i = 0; i < 9; i++){                
+		    for(int j = 0; j < 9; j++){
+			texts[i][j].setForeground(Color.BLACK);
+			texts[i][j].setText("" + puzzle.getData(i, j));
+			texts[i][j].setEditable(false);
+			
+		    }
 		}
+	    }
+	    catch (NullPointerException a) {
 	    }
 	}
 	if(s.equals("Check Answers")){ // If not null, compare the input to the data
@@ -205,7 +216,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	if (s.equals("Hint")) {
 	    boolean added = false;
 	    int x, i;
-	    while (!(added)) {
+	    int checks = 0;
+	    while (!(added) && checks < 1000) {
 		x = randgen.nextInt(9);
 		i = randgen.nextInt(9);
 		if(texts[i][x].isEditable() && !(added)) {
@@ -213,7 +225,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    texts[i][x].setForeground(Color.BLACK);
 		    texts[i][x].setEditable(false);
 		    added = true;
+		    checks = 1000;
 		}
+		checks ++;
 	    }
 	}
 	if(s.equals("Help")){

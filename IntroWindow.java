@@ -5,6 +5,7 @@ import java.text.*;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.BoxLayout;
+import java.awt.Dimension
 
 public class IntroWindow extends JFrame implements ActionListener{
 
@@ -20,10 +21,12 @@ public class IntroWindow extends JFrame implements ActionListener{
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	this.setResizable(false);
 
-	pane = new JPanel(new BoxLayout(pane, BoxLayout.Y_AXIS));
+	pane = new JPanel();
+	pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	JLabel welc = new JLabel("Welcome!");
+	welc.setAlignmentX(Component.CENTER_ALIGNMENT);
 	welc.setFont(font);
 	//welc.addActionListener(this);
 
@@ -34,7 +37,7 @@ public class IntroWindow extends JFrame implements ActionListener{
 	JButton play = new JButton("Play");
 	play.addActionListener(this);
 	String[] levels = {"Easy", "Medium", "Hard"};
-	JComboBox difficulty = new JComboBox(levels);
+	JComboBox<String> difficulty = new JComboBox<String>(levels);
 	difficulty.setSelectedIndex(0);
 	difficulty.addActionListener(this);
 

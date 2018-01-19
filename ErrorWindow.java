@@ -17,10 +17,12 @@ public class ErrorWindow extends JFrame{
 
         this.setResizable(false);
 
-	pane = new JPanel(new BorderLayout());
+	pane = new JPanel(new GridLayout(1, 1));
 
-	JLabel oops = new JLabel("Oops, looks like you made a mistake! Use the Check Answers, Number of Errors, and Display Solutions buttons to locate and fix your errors, then try submitting again to win the game!");
+	this.getContentPane().add(pane);
 
-	pane.add(oops, BorderLayout.CENTER);
+	JLabel oops = new JLabel("Oops, looks like you made a mistake!\n Use the Check Answers, Number of Errors, and Display Solutions buttons to locate and fix your errors, then try submitting again to win the game!", JLabel.CENTER);
+
+	pane.add(oops);
     }
 }

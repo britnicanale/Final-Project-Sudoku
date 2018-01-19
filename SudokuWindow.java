@@ -195,16 +195,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	}
 	if (s.equals("Hint")) {
-	    boolean added = false;
-	    int x, i;
-	    while (!(added)) {
-		x = randgen.nextInt(9);
-		i = randgen.nextInt(9);
-		if(texts[i][x].isEditable() && !(added)) {
-		    texts[i][x].setText("" + puzzle.getData(i, x));
-		    texts[i][x].setForeground(Color.BLACK);
-		    texts[i][x].setEditable(false);
-		    added = true;
+	    if(puzzle != null){
+		boolean added = false;
+		int x, i;
+		while (!(added)) {
+		    x = randgen.nextInt(9);
+		    i = randgen.nextInt(9);
+		    if(texts[i][x].isEditable() && !(added)) {
+			texts[i][x].setText("" + puzzle.getData(i, x));
+			texts[i][x].setForeground(Color.BLACK);
+			texts[i][x].setEditable(false);
+			added = true;
+		    }
 		}
 	    }
 	}
@@ -235,21 +237,34 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    numErrorsText.setText("" + numErrs);
 	}
 	if(s.equals("Submit") && puzzle != null){
-	    for(int i = 0; i < 9; i++) {
-		for (int j = 0; j < 9; j++) {
-		    if(texts[i][j].getValue() != null){
-			if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
-			    //OPEN ERROR WINDOW;
-			    ErrorWindow ew = new ErrorWindow();
+	    boolean error = false;
+	    //while(!isGood){
+	    WinningWindow ww;
+	    ErrorWindow ew;
+		for(int i = 0; i < 9; i++) {
+		    for (int j = 0; j < 9; j++) {
+			if(texts[i][j].getValue() != null){
+			    if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
+				//OPEN ERROR WINDOW;
+				ew = new ErrorWindow();
+				ew.setVisible(true);
+			        i = 10;
+				j = 10;
+				error = true;
+			    }
+			}else{
+			    ew = new ErrorWindow();
 			    ew.setVisible(true);
+			    i = 10;
+			    j = 10;
+			    error = true;
 			}
-		    }else{
-			ErrorWindow ew = new ErrorWindow();
-			ew.setVisible(true);
 		    }
 		}
-	    }
-	    //OPEN WINNER WINDOW;
+		if(!error){
+		    ww = new WinningWindow(10);
+		    ww.setVisible(true);
+		}
 	}
     }
 

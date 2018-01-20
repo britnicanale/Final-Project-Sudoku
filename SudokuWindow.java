@@ -22,8 +22,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JFormattedTextField[][] texts; 
     private JTextField numErrorsText;
     private Timer timer;
+    //private JLabel timerLabel;
 
-    public final static int ONE_SECOND = 1000;
+    //public final static int ONE_SECOND = 1000;
 
     public SudokuWindow(){
 	
@@ -60,7 +61,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
+	//JTextField time = new JTextField("0");
 	//JTextField seed = new JTextField("Load Puzzle");
+	JTextField timerLabel = new JTextField("Timer");
+	//timerLabel.setBounds(30,30,30,30);
 	
 	displaySolution.addActionListener(this);
 
@@ -79,14 +83,19 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	reset.addActionListener(this);
 
+	//time.addActionListener(this);
+	//time.setEditable(false);
+
 	buttonPane.add(createPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
 	buttonPane.add(numErrors);
+	//buttonPane.add(time);
 	buttonPane.add(numErrorsText);
      	buttonPane.add(hint);
 	buttonPane.add(help);
 	buttonPane.add(reset);
+	buttonPane.add(timerLabel);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -139,11 +148,13 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sudokuPane.add(b);
 	    }
 	}
-	timer = new Timer(ONE_SECOND, new ActionListener() {
+	int time1 = 0;
+	timer = new Timer(1000, new ActionListener() {
+	        time1 += 1;
 		public void actionPerformed(ActionEvent evt) {
 		    boolean finish = true;
-		    timer.start();
-		
+		    //timer.start();
+		    
 		    for (int i = 0; i < 9; i++) {
 			for (int x = 0; x < 9; x++) {
 			    if ((int)texts[i][x].getValue() != puzzle.getData(i, x)) {
@@ -155,8 +166,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			timer.stop();
 		    }
 		}
+	        timerLabel.setText("" + time);
 	    });
-	//pane.add(timer, BorderLayout.EAST);
+	//buttonPane.add(timer);
 	this.getContentPane().add(pane);
     }
     

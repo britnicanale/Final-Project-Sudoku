@@ -150,7 +150,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	}
 	int time1 = 0;
 	timer = new Timer(1000, new ActionListener() {
-	        time1 += 1;
+	        //time1 += 1;
 		public void actionPerformed(ActionEvent evt) {
 		    boolean finish = true;
 		    //timer.start();
@@ -166,7 +166,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			timer.stop();
 		    }
 		}
-	        timerLabel.setText("" + time);
+	        //timerLabel.setText("" + time);
 	    });
 	//buttonPane.add(timer);
 	this.getContentPane().add(pane);
@@ -224,6 +224,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 	    }
+	    boolean win = true;
+	    for (int i = 0; i < 9;i++) {
+		for (int x = 0; x < 9; x++) {
+		    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+			win = false;
+		    }
+		}
+	    }
+	    if (win) {
+		EndPage w = new EndPage();
+		w.setVisible(true);
+	    }
 	}
 	if (s.equals("Hint")) {
 	    boolean added = false;
@@ -267,6 +279,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	    numErrorsText.setText("" + numErrs);
+	    boolean win = true;
+	    for (int i = 0; i < 9;i++) {
+		for (int x = 0; x < 9; x++) {
+		    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+			win = false;
+		    }
+		}
+	    }
+	    if (win) {
+		EndPage w = new EndPage();
+		w.setVisible(true);
+	    }
 	}
     }
     public static void main(String[] args){

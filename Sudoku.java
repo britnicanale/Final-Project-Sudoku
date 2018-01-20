@@ -6,8 +6,11 @@ public class Sudoku {
     private int[][] input;
     private Random randgen;
     private int[][] actual;
+    private String level;
 
-    public Sudoku() {                           //just put in values to get grid working
+    public Sudoku(String d) {                           //just put in values to get grid working
+	level = d;
+
 	data = new int[9][9];
 	input = new int[9][9];
 	actual = new int[9][9];
@@ -97,7 +100,17 @@ public class Sudoku {
     public void createPuzzle(){
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
-		int a = randgen.nextInt(3);
+		int lim;
+		if(level.equals("Easy")){
+		    lim = 2;
+		}else if(level.equals("Medium")){
+                    lim = 3;
+		}else if(level.equals("Hard")){
+                    lim = 4;
+		}else{
+		    lim = 3;
+		}
+		int a = randgen.nextInt(lim);
 		if (a == 0 ) {
 		    input[i][x] = data[i][x];
 		}

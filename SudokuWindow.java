@@ -12,7 +12,8 @@ import java.util.Random;
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
-
+    private String username;
+    private String level;
     private Sudoku puzzle;
     private Random randgen;
     private JPanel pane;
@@ -22,12 +23,16 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JFormattedTextField[][] texts; 
     private JTextField numErrorsText;
 
-    public SudokuWindow(){
+    public SudokuWindow(String user, String lev){
 
-	//puzzle = new Sudoku();
+	puzzle = null;
+
+	username = user;
+	level = lev;
+	
 	randgen = new Random();
 
-	this.setTitle("Sudoku");
+	this.setTitle(username + "'s Sudoku Game");
 
         this.setSize(650,550);
 
@@ -41,7 +46,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel(new GridLayout(9, 1));
+	buttonPane = new JPanel(new GridLayout(10, 1));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
@@ -58,6 +63,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
 	JButton submit = new JButton("Submit");
+	JButton restart = new JButton("Restart");
 
 	displaySolution.addActionListener(this);
 
@@ -78,6 +84,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	submit.addActionListener(this);
 
+	restart.addActionListener(this);
+
 	buttonPane.add(createPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
@@ -87,6 +95,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	buttonPane.add(help);
 	buttonPane.add(reset);
 	buttonPane.add(submit);
+	buttonPane.add(restart);
 
 	Font font = new Font("SansSerif", Font.BOLD, 20);
 	
@@ -146,7 +155,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
-	    puzzle = new Sudoku();
+	    puzzle = new Sudoku(level);
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
@@ -266,10 +275,15 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    ww.setVisible(true);
 		}
 	}
+	if(s.equals("Restart")){
+	    RestartWindow rw = new RestartWindow(this);
+	    rw.setVisible(true);
+	}
+
     }
 
     public static void main(String[] args){
-	SudokuWindow s = new SudokuWindow();
+	SudokuWindow s = new SudokuWindow("Guest","Medium");
 	s.setVisible(true);
     }
 }

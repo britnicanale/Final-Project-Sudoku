@@ -256,17 +256,22 @@ public class Sudoku {
 	for (int i = 0; i < 9; i++) {
 	    for (int x = 0; x < 9; x++) {
 		int lim;
+		int border;
 		if(level.equals("Easy")){
 		    lim = 2;
+		    border = 1;
 		}else if(level.equals("Medium")){
                     lim = 3;
+		    border = 1;
 		}else if(level.equals("Hard")){
-                    lim = 5;
+                    lim = 27;
+		    border = 8;
 		}else{
+		    border = 1;
 		    lim = 3;
 		}
 		int a = randgen.nextInt(lim);
-		if (a == 0 ) {
+		if (a < border ) {
 		    input[i][x] = data[i][x];
 		}
 		else {

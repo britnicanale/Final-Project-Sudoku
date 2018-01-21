@@ -6,7 +6,7 @@ public class WinningWindow extends JFrame implements ActionListener{
 
     private JPanel pane, scorePane, buttonPane;
 
-    public WinningWindow(int score){
+    public WinningWindow(int score, int timed){
 	
 	this.setTitle("Sudoku -- Congratulations!");
 
@@ -26,15 +26,18 @@ public class WinningWindow extends JFrame implements ActionListener{
 
 	JButton playagain = new JButton("Play Again");
 	JButton exit = new JButton("Exit");
-
+	
+	JLabel time = new JLabel("Time: " + timed + " seconds");
 	JLabel user = new JLabel("britni ............... 100000");
 	JLabel user2 = new JLabel("Jeremy ................... 10");
 
 	buttonPane.add(playagain);
 	buttonPane.add(exit);
+	buttonPane.add(time);
 
 	scorePane.add(user);
 	scorePane.add(user2);
+	scorePane.add(time);
 
 	pane.add(buttonPane, BorderLayout.SOUTH);
 	pane.add(scorePane, BorderLayout.CENTER);

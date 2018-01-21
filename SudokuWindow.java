@@ -28,6 +28,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private Timer timer;
     private JLabel timerLabel;
     private JTextField seedText;
+    private int startTime;
+    private int endTime;
 
     //public final static int ONE_SECOND = 1000;
 
@@ -241,6 +243,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	    timer.start();
+	    startTime = calcTime();
 	    seedText.setText("Seed: " + puzzle.getSeed());
 	}
 	
@@ -276,7 +279,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	    WinningWindow ww;
 	    if (win) {
-		ww = new WinningWindow(10);
+		endTime = calcTime();
+		ww = new WinningWindow(10, endTime - startTime);
 		ww.setVisible(true);
 	    }
 	}
@@ -335,7 +339,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 		if (win) {
-		    WinningWindow ww = new WinningWindow(10);
+		    endTime = calcTime();
+		    WinningWindow ww = new WinningWindow(10, endTime - startTime);
 		    ww.setVisible(true);
 		}
 	    }
@@ -366,7 +371,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 		if(!error){
-		    ww = new WinningWindow(10);
+		    endTime = calcTime();
+		    ww = new WinningWindow(10, endTime - startTime);
 		    ww.setVisible(true);
 		}
 	}
@@ -380,5 +386,13 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public static void main(String[] args){
 	SudokuWindow s = new SudokuWindow("Guest","Medium");
 	s.setVisible(true);
+    }
+    public int calcTime() {
+	String time = timerLabel.getText();
+	int ans = 0;
+	ans += Integer.valueOf(time.substring(time.length()-2));
+	ans += Integer.valueOf(time.substring(3,5)) * 60;
+	ans += Integer.valueOf(time.substring(0,2)) * 60 * 60;
+	return ans;
     }
 }

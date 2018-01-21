@@ -9,7 +9,7 @@ public class HelpWindow extends JFrame{
     public HelpWindow(){
 
 	this.setTitle("Sudoku -- Help");
-	this.setSize(400, 750);
+	this.setSize(700, 600);
 	this.setLocation(650, 0);
 	this.setResizable(false);
 

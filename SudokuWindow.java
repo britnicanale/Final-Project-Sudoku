@@ -27,6 +27,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JTextField numErrorsText;
     private Timer timer;
     private JLabel timerLabel;
+    private JTextField seedText;
 
     //public final static int ONE_SECOND = 1000;
 
@@ -41,7 +42,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	this.setTitle(username + "'s Sudoku Game");
 
-        this.setSize(650,550);
+        this.setSize(750,650);
 
         this.setLocation(0,0);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -69,6 +70,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton hint = new JButton("Hint");
 	JButton help = new JButton("Help");
 	JButton reset = new JButton("Reset");
+        seedText = new JTextField(1);
 
 	//JTextField time = new JTextField("0");
 	//JTextField seed = new JTextField("Load Puzzle");
@@ -99,6 +101,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton submit = new JButton("Submit");
 	JButton restart = new JButton("Restart");
 
+	seedText.addActionListener(this);
+	seedText.setEditable(false);
+	seedText.setText("Seed: ");
+	
 	displaySolution.addActionListener(this);
 
 	checkAnswers.addActionListener(this);
@@ -123,6 +129,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	restart.addActionListener(this);
 
+	buttonPane.add(seedText);
 	buttonPane.add(createPuzzle);
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
@@ -215,8 +222,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
-
 	    puzzle = new Sudoku(level);
+	    // seedText.setText(puzzle.getSeed());
 	    puzzle.createPuzzle();   //We need to clear board first
 	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
 		for(int j = 0; j < 9; j++){
@@ -234,6 +241,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	    timer.start();
+	    seedText.setText("Seed: " + puzzle.getSeed());
 	}
 	
 	if(s.equals("Display Solution")){
@@ -304,27 +312,29 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	}
 	if(s.equals("Number of Errors:")){
 	    int numErrs = 0;
-	    for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-		    if(texts[i][j].getValue() != null){
-			if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
-			    numErrs++;
+	    if (puzzle != null) {
+		for (int i = 0; i < 9; i++) {
+		    for (int j = 0; j < 9; j++) {
+			if(texts[i][j].getValue() != null){
+			    if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
+				numErrs++;
+			    }
 			}
 		    }
 		}
-	    }
-	    numErrorsText.setText("" + numErrs);
-	    boolean win = true;
-	    for (int i = 0; i < 9;i++) {
-		for (int x = 0; x < 9; x++) {
-		    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
-			win = false;
+		numErrorsText.setText("" + numErrs);
+		boolean win = true;
+		for (int i = 0; i < 9;i++) {
+		    for (int x = 0; x < 9; x++) {
+			if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+			    win = false;
+			}
 		    }
 		}
-	    }
-	    if (win) {
-		EndPage w = new EndPage();
-		w.setVisible(true);
+		if (win) {
+		    EndPage w = new EndPage();
+		    w.setVisible(true);
+		}
 	    }
 	}
 	if(s.equals("Submit") && puzzle != null){

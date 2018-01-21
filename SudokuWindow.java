@@ -54,7 +54,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	sudokuPane = new JPanel(new GridLayout(9, 9));
 
-	buttonPane = new JPanel(new GridLayout(11, 1));
+	buttonPane = new JPanel(new GridLayout(12, 1));
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 

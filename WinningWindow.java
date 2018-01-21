@@ -5,9 +5,12 @@ import java.awt.event.*;
 public class WinningWindow extends JFrame implements ActionListener{
 
     private JPanel pane, scorePane, buttonPane;
+    private SudokuWindow sudWin;
 
-    public WinningWindow(int score){
+    public WinningWindow(int score, SudokuWindow sw){
 	
+	sudWin = sw;
+
 	this.setTitle("Sudoku -- Congratulations!");
 
 	this.setSize(300, 400);
@@ -26,7 +29,8 @@ public class WinningWindow extends JFrame implements ActionListener{
 
 	JButton playagain = new JButton("Play Again");
 	JButton exit = new JButton("Exit");
-
+	playagain.addActionListener(this);
+	exit.addActionListener(this);
 	JLabel user = new JLabel("britni ............... 100000");
 	JLabel user2 = new JLabel("Jeremy ................... 10");
 
@@ -39,5 +43,17 @@ public class WinningWindow extends JFrame implements ActionListener{
 	pane.add(buttonPane, BorderLayout.SOUTH);
 	pane.add(scorePane, BorderLayout.CENTER);
     }
-    public void actionPerformed(ActionEvent e){}
+    public void actionPerformed(ActionEvent e){
+	String s = e.getActionCommand();
+	if(s.equals("Play Again")){
+	    IntroWindow iw = new IntroWindow();
+	    iw.setVisible(true);
+	    this.dispose();
+	    sudWin.dispose();
+	}
+	if(s.equals("Exit")){
+	    this.dispose();
+            sudWin.dispose();
+	}
+    }
 }

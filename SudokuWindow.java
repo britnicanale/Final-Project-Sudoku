@@ -250,7 +250,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sw.setVisible(true);
 	    }
 	}
-	if(s.equals("Check Answers")){ // If not null, compare the input to the data
+	if(s.equals("Check Answers") && puzzle != null){ // If not null, compare the input to the data
 	    for(int i = 0; i < 9; i++){         //turn green if correct, red if not
 		for(int j = 0; j < 9; j++){
 		    if (texts[i][j].getValue() != null) {                        
@@ -267,16 +267,20 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	    boolean win = true;
-	    for (int i = 0; i < 9;i++) {
-		for (int x = 0; x < 9; x++) {
-		    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+	    for (int i = 0; i < 9;i++){
+		for (int x = 0; x < 9; x++){
+		    if (texts[i][x].getValue() != null){
+			if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+			    win = false;
+			}
+		    }else{
 			win = false;
 		    }
 		}
 	    }
 	    WinningWindow ww;
 	    if (win) {
-		ww = new WinningWindow(10);
+		ww = new WinningWindow(10, this);
 		ww.setVisible(true);
 	    }
 	}
@@ -329,13 +333,17 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		boolean win = true;
 		for (int i = 0; i < 9;i++) {
 		    for (int x = 0; x < 9; x++) {
-			if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+			if (texts[i][x].getValue() != null){
+			    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
+				win = false;
+			    }
+			}else{
 			    win = false;
 			}
 		    }
 		}
 		if (win) {
-		    WinningWindow ww = new WinningWindow(10);
+		    WinningWindow ww = new WinningWindow(10, this);
 		    ww.setVisible(true);
 		}
 	    }
@@ -366,7 +374,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 		if(!error){
-		    ww = new WinningWindow(10);
+		    ww = new WinningWindow(10, this);
 		    ww.setVisible(true);
 		}
 	}

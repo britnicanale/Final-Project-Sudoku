@@ -281,10 +281,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	    }
 	}
 	if (s.equals("Hint")) {
+	    int max = 0;
 	    if(puzzle != null){
 		boolean added = false;
 		int x, i;
-		while (!(added)) {
+		while (!(added) && max < 1000) {
 		    x = randgen.nextInt(9);
 		    i = randgen.nextInt(9);
 		    if(texts[i][x].isEditable() && !(added)) {
@@ -292,10 +293,12 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][x].setForeground(Color.BLACK);
 			texts[i][x].setEditable(false);
 			added = true;
+			max = 1000;
 		    }
-
+		    max++;
 		}
 	    }
+	    
 	}
 	if(s.equals("Help")){
 	    HelpWindow h = new HelpWindow();
@@ -332,8 +335,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 		if (win) {
-		    EndPage w = new EndPage();
-		    w.setVisible(true);
+		    WinningWindow ww = new WinningWindow(10);
+		    ww.setVisible(true);
 		}
 	    }
 	}

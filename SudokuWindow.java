@@ -9,6 +9,9 @@ import java.text.*;
 import java.awt.Font;
 import javax.swing.border.*;
 import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class SudokuWindow extends JFrame implements ActionListener{
 
@@ -23,7 +26,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JFormattedTextField[][] texts; 
     private JTextField numErrorsText;
     private Timer timer;
-    //private JLabel timerLabel;
+    private JLabel timerLabel;
 
     //public final static int ONE_SECOND = 1000;
 
@@ -69,9 +72,30 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	//JTextField time = new JTextField("0");
 	//JTextField seed = new JTextField("Load Puzzle");
-	JTextField timerLabel = new JTextField("Timer");
+	//JTextField timerLabel = new JTextField("Timer");
 	//timerLabel.setBounds(30,30,30,30);
-	
+
+
+	//Britni - this is the timer thing I added and I made it start in Create Puzzle       
+	Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        timerLabel = new JLabel( sdf.format(cal.getTime()));
+    
+	SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	int interval = 1000; // 1000 ms
+
+	timer = new Timer(interval, new ActionListener() {
+        @Override
+	    public void actionPerformed(ActionEvent e) {
+            Calendar now = Calendar.getInstance();
+            timerLabel.setText(dateFormat.format(now.getTime()));
+        }
+	    });
+
+
+
+
+
 	JButton submit = new JButton("Submit");
 	JButton restart = new JButton("Restart");
 
@@ -163,7 +187,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sudokuPane.add(b);
 	    }
 	}
-	int time1 = 0;
+	/*int time1 = 0;
 	timer = new Timer(1000, new ActionListener() {
 	        //time1 += 1;
 		public void actionPerformed(ActionEvent evt) {
@@ -184,7 +208,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	        //timerLabel.setText("" + time);
 	    });
 	//buttonPane.add(timer);
-	this.getContentPane().add(pane);
+	this.getContentPane().add(pane);*/
     }
     
 
@@ -209,6 +233,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 	    }
+	    timer.start();
 	}
 	
 	if(s.equals("Display Solution")){

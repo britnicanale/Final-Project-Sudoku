@@ -199,11 +199,11 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
     
     public void createPuzzle(){
-	if (seed == 6) {
-	    puzzle = new Sudoku(level);
+	if (seed >= 0 && seed <= 5) {
+	    puzzle = new Sudoku(level, seed);
 	}
 	else {
-	    puzzle = new Sudoku(level, seed);
+	    puzzle = new Sudoku(level);
 	}
 	puzzle.createPuzzle();         
 	for(int i = 0; i < 9; i++){

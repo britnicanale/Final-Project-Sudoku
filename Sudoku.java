@@ -186,7 +186,7 @@ public class Sudoku {
 		{8,3,2,1,4,9,6,7,5}
 	    };
 	}
-	else  {
+	if(seed == 5)  {
 	    //seed = 5;
 	    actual = new int[][] {
 		{1,2,3,4,5,6,7,8,9},

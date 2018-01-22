@@ -35,15 +35,15 @@ public class WinningWindow extends JFrame implements ActionListener{
 	
 	JLabel time = new JLabel("Time: " + timed + " seconds");
 
-	JLabel user = new JLabel("britni ............... 100000");
-	JLabel user2 = new JLabel("Jeremy ................... 10");
+	JLabel win = new JLabel("WOO!! Congradulations!");
+	//JLabel user2 = new JLabel("Jeremy ................... 10");
 
 	buttonPane.add(playagain);
 	buttonPane.add(exit);
 	buttonPane.add(time);
 
-	scorePane.add(user);
-	scorePane.add(user2);
+	scorePane.add(win);
+	//scorePane.add(user2);
 	scorePane.add(time);
 
 	pane.add(buttonPane, BorderLayout.SOUTH);

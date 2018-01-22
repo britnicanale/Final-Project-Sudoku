@@ -22,10 +22,3 @@ Once onto the SudokuWindow window (the one with the actual Sudoku game and butto
 1/19: Jeremy added endpage window if you win and kept working on timer. Britni created IntroWindow. </br>
 1/20: Jeremy began adding random seeds and caught a bug in hint button. Britni tried the timer and it now checks the actual time. We are still working on getting that functional. Britni added usernames and difficulty levels. </br>
 1/21: We are just finishing up and working on getting the random seed generator and timer working. UPDATE: Jeremy got both functions working, Britni continued to check for bugs and wrote a Delay Window when creating a new puzzle. </br>
-</br>
-<b> Citations</b><br/>
-There were certain chunks of code we used from the internet that were too advanced for us to have understood and written ourselves but helpful to our project. They are as follows: <br/>
--In SudokuWindow(), Lines 56 - 64: Helped us use BorderLayout when we were getting errors. Link: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java<br/>
--In SudokuWindow(), Lines 79 - 92: Helped us use timers, which we couldn't understand because there were lots of elements involved and really complicated documentation. Link: https://stackoverflow.com/questions/13811224/java-display-current-time<br?>
--In SudokuWindow(), Lines 150 - 158: This overrides NumberFormatter so that we could use it in JFormattedTextFields and it would allow null values to be inputted; without this if you put in a number you wouldn't be allowed to delete it. Link: https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html<br/>
-

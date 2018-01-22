@@ -31,9 +31,8 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private int startTime;
     private int endTime;
     private int seed;
-
-    //public final static int ONE_SECOND = 1000;
-
+    private String currentTime;
+    
     public SudokuWindow(String user, String lev, int s){
 
 	puzzle = null;
@@ -44,7 +43,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	
 	randgen = new Random();
 
-	this.setTitle(username + "'s " + lev + " Sudoku Game");
+	this.setTitle(username + "'s " + lev + " Sudoku Game");   //Allows the heading of the window to have the username and level
 
         this.setSize(750,650);
 
@@ -56,9 +55,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	pane = new JPanel(new BorderLayout());
 
-	sudokuPane = new JPanel(new GridLayout(9, 9));
+	sudokuPane = new JPanel(new GridLayout(9, 9));    //Creates a grid for the Sudoku board
 
-	buttonPane = new JPanel(new GridLayout(12, 1));
+	buttonPane = new JPanel(new GridLayout(11, 1));   //Creates a pane for the buttons
 
 	pane.add(sudokuPane, BorderLayout.CENTER);
 
@@ -76,28 +75,21 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	JButton reset = new JButton("Reset");
         seedText = new JTextField(1);
 
-	//JTextField time = new JTextField("0");
-	//JTextField seed = new JTextField("Load Puzzle");
-	//JTextField timerLabel = new JTextField("Timer");
-	//timerLabel.setBounds(30,30,30,30);
-
-
-	//Britni - this is the timer thing I added and I made it start in Create Puzzle       
+	//Britni - this is the timer, I edited the code from the following link: https://stackoverflow.com/questions/13811224/java-display-current-time        
 	Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        timerLabel = new JLabel( sdf.format(cal.getTime()));
     
 	SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-	int interval = 1000; // 1000 ms
+	int interval = 1000; 
 
 	timer = new Timer(interval, new ActionListener() {
         @Override
 	    public void actionPerformed(ActionEvent e) {
             Calendar now = Calendar.getInstance();
-            timerLabel.setText(dateFormat.format(now.getTime()));
+            currentTime = "" + dateFormat.format(now.getTime());
         }
 	    });
-
+	timer.start();
 
 
 
@@ -126,9 +118,6 @@ public class SudokuWindow extends JFrame implements ActionListener{
 
 	reset.addActionListener(this);
 
-	//time.addActionListener(this);
-	//time.setEditable(false);
-
 	submit.addActionListener(this);
 
 	restart.addActionListener(this);
@@ -138,12 +127,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	buttonPane.add(displaySolution);
 	buttonPane.add(checkAnswers);
 	buttonPane.add(numErrors);
-	//buttonPane.add(time);
 	buttonPane.add(numErrorsText);
      	buttonPane.add(hint);
 	buttonPane.add(help);
 	buttonPane.add(reset);
-	buttonPane.add(timerLabel);
 	buttonPane.add(submit);
 	buttonPane.add(restart);
 
@@ -151,7 +138,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	
 	texts = new JFormattedTextField[9][9];
 
-	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board
+	for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JFormattedTextFields that fit within the board
 
 	    for(int j = 0; j < 9; j++){
 
@@ -168,7 +155,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			    return super.stringToValue(string);
 			}
 		    };
-		formatter.setValueClass(Integer.class);
+		formatter.setValueClass(Integer.class);  //This sets the specificities for the Number Formatters, only allows it to take ints from 1-9 and null
 		formatter.setMinimum(1);
 		formatter.setMaximum(9);
 		formatter.setAllowsInvalid(false);    
@@ -177,9 +164,9 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		b.setHorizontalAlignment(JTextField.CENTER);
 		b.setFont(font);
 		b.addActionListener(this);
-		b.setEditable(false);
+		b.setEditable(false);  //You can't add random values into the board
 		texts[i][j]= b;
-		if ((i == 2 || i == 5) && (j == 2 || j == 5)) {
+		if ((i == 2 || i == 5) && (j == 2 || j == 5)) {  //Creates borders that separate 3x3 subgrids
 		    Border border = BorderFactory.createMatteBorder(1, 1, 3, 3, Color.BLACK);
 		    b.setBorder(border);
 		}
@@ -198,29 +185,18 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		sudokuPane.add(b);
 	    }
 	}
-	/*int time1 = 0;
-	timer = new Timer(1000, new ActionListener() {
-	        //time1 += 1;
-		public void actionPerformed(ActionEvent evt) {
-		    boolean finish = true;
-		    //timer.start();
-		    
-		    for (int i = 0; i < 9; i++) {
-			for (int x = 0; x < 9; x++) {
-			    if ((int)texts[i][x].getValue() != puzzle.getData(i, x)) {
-				finish = false;
-			    }
-			}
-		    }
-		    if (finish) {
-			timer.stop();
-		    }
-		}
-	        //timerLabel.setText("" + time);
-	    });
-	//buttonPane.add(timer);
-	this.getContentPane().add(pane);*/
     }
+
+
+    public int calcTime() {
+	String time = currentTime;
+	int ans = 0;
+	ans += Integer.valueOf(time.substring(time.length()-2));
+	ans += Integer.valueOf(time.substring(3,5)) * 60;
+	ans += Integer.valueOf(time.substring(0,2)) * 60 * 60;
+	return ans;
+    }
+
     
     public void createPuzzle(){
 	if (seed == 6) {
@@ -229,8 +205,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	else {
 	    puzzle = new Sudoku(level, seed);
 	}
-	// seedText.setText(puzzle.getSeed());                                      
-	puzzle.createPuzzle();   //We need to clear board first                     
+	puzzle.createPuzzle();         
 	for(int i = 0; i < 9; i++){
 	    for(int j = 0; j < 9; j++){                                             
 		texts[i][j].setText(null);                                          
@@ -245,18 +220,29 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}                                                                   
 	    }                                                                       
 	}                                                                           
-	timer.start();                                                              
+	
 	seedText.setText("Seed: " + puzzle.getSeed());
     }
 
-    public void reset(){
-	for (int i = 0; i < 9; i++) {                                                                                                                                          
-	    for (int j = 0; j < 9; j++) {                                                                                                                                        
-		if(texts[i][j].getForeground() != Color.BLACK){                                                                                                                  
-		    texts[i][j].setText(null);                                                                                                                                   
-		}                                                                                                                                                                
-	    }                                                                                                                                                                    
+    public void reset(){  // Resets all values to those originally displayed
+	for (int i = 0; i < 9; i++) {
+	    for (int j = 0; j < 9; j++) {  
+		if(texts[i][j].getForeground() != Color.BLACK){                                                       
+		    texts[i][j].setText(null);          
+		}  
+	    }
 	}     
+    }
+
+    public boolean isFull(){
+	for (int i = 0; i < 9;i++){
+	    for (int x = 0; x < 9; x++){
+		if(texts[i][x].getValue()  == null){
+		    return false;
+		}
+	    }
+	}
+	return true;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -264,36 +250,13 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	if(s.equals("Create Puzzle")){
 	    startTime = calcTime();
 	    if(puzzle != null){
-		CreatePuzzleWindow cpw = new CreatePuzzleWindow(this);
+		CreatePuzzleWindow cpw = new CreatePuzzleWindow(this);  //Alerts the user that their current puzzle will be terminated if they select this while they already have a puzzle opened
 		cpw.setVisible(true);
 	    }else{
 		createPuzzle();
 	    }
-	    /*puzzle = new Sudoku(level);
-	    // seedText.setText(puzzle.getSeed());
-	    puzzle.createPuzzle();   //We need to clear board first
-	    for(int i = 0; i < 9; i++){                               //Britni -- Creates 81 JTextBoxes that fit within the board     
-		for(int j = 0; j < 9; j++){
-		    texts[i][j].setText(null);
-		    texts[i][j].setEditable(true);
-		    texts[i][j].setForeground(Color.BLUE);
-		    if(puzzle.getInput(i,j) != 0){
-			texts[i][j].setText("" + puzzle.getInput(i, j));
-			texts[i][j].setEditable(false);
-			texts[i][j].setForeground(Color.BLACK);
-		    }else{
-			texts[i][j].setForeground(Color.BLUE);
-
-		    }
-		}
-	    }
-	    timer.start();
-	    startTime = calcTime();
-	    seedText.setText("Seed: " + puzzle.getSeed());
-	    */
-	}
-	
-	if(s.equals("Display Solution")){
+	}	
+	if(s.equals("Display Solution")){  // Opens a new window with a filled in board
 	    if(puzzle != null){
 		SolutionWindow sw = new SolutionWindow(puzzle.getData());
 		sw.setVisible(true);
@@ -328,18 +291,17 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 	    }
 	    WinningWindow ww;
-	    if (win) {
+	    if (win) {  //Checks if you won 
 		endTime = calcTime();
-		ww = new WinningWindow(10, endTime - startTime, this);
+		ww = new WinningWindow(level, username, endTime - startTime, this);
 		ww.setVisible(true);
 	    }
 	}
-	if (s.equals("Hint")) {
-	    int max = 0;
-	    if(puzzle != null){
+	if (s.equals("Hint")) {  // Adds a correct number to the puzzle 
+	    if(puzzle != null && !isFull()){  // Prevents errors if Hint is pressed before Create Puzzle
 		boolean added = false;
 		int x, i;
-		while (!(added) && max < 1000) {
+		while (!(added)) {
 		    x = randgen.nextInt(9);
 		    i = randgen.nextInt(9);
 		    if(texts[i][x].getValue() == null && !(added)) {
@@ -347,30 +309,20 @@ public class SudokuWindow extends JFrame implements ActionListener{
 			texts[i][x].setForeground(Color.BLUE);
 			texts[i][x].setEditable(false);
 			added = true;
-			max = 1000;
 		    }
-		    max++;
 		}
 	    }
 	    
 	}
-	if(s.equals("Help")){
+	if(s.equals("Help")){  // Opens a window with instructions
 	    HelpWindow h = new HelpWindow();
 	    h.setVisible(true);
 	}
 	if(s.equals("Reset")){
-	    ResetWindow rsw = new ResetWindow(this);
+	    ResetWindow rsw = new ResetWindow(this); //Opens window alerting user that their progress will be lost if they select this option, if they continue the reset() is called
 	    rsw.setVisible(true);
-	    /*for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if(texts[i][j].getForeground() != Color.BLACK){
-			texts[i][j].setText(null);
-		    }
-                }
-	    }
-	    */
 	}
-	if(s.equals("Number of Errors:")){
+	if(s.equals("Number of Errors:")){ //Counts and returns number of errors, doesn't display what is right and wrong
 	    int numErrs = 0;
 	    if (puzzle != null) {
 		for (int i = 0; i < 9; i++) {
@@ -383,22 +335,10 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		    }
 		}
 		numErrorsText.setText("" + numErrs);
-		boolean win = true;
-		for (int i = 0; i < 9;i++) {
-		    for (int x = 0; x < 9; x++) {
-			if (texts[i][x].getValue() != null){
-			    if((int)texts[i][x].getValue() != puzzle.getData(i,x)) {
-				win = false;
-			    }
-			}else{
-			    win = false;
-			}
-		    }
-		}
-		if (win) {
+		if (numErrorsText.getText().equals("0") && isFull()) {
 
 		    endTime = calcTime();
-		    WinningWindow ww = new WinningWindow(10, endTime - startTime, this);
+		    WinningWindow ww = new WinningWindow(level, username, endTime - startTime, this);
 
 		    ww.setVisible(true);
 		}
@@ -406,14 +346,13 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	}
 	if(s.equals("Submit") && puzzle != null){
 	    boolean error = false;
-	    //while(!isGood){
 	    WinningWindow ww;
 	    ErrorWindow ew;
 		for(int i = 0; i < 9; i++) {
 		    for (int j = 0; j < 9; j++) {
 			if(texts[i][j].getValue() != null){
 			    if((int)texts[i][j].getValue() != puzzle.getData(i, j)){
-				//OPEN ERROR WINDOW;
+				//OPENS ERROR WINDOW saying that their are still mistakes/empty boxes;
 				ew = new ErrorWindow();
 				ew.setVisible(true);
 			        i = 10;
@@ -431,12 +370,12 @@ public class SudokuWindow extends JFrame implements ActionListener{
 		}
 		if(!error){
 
-		    endTime = calcTime();
-		    ww = new WinningWindow(10, endTime - startTime, this);
+		    endTime = calcTime(); //Opens window displaying time took to complete the puzzle
+		    ww = new WinningWindow(level, username, endTime - startTime, this);
 		    ww.setVisible(true);
 		}
 	}
-	if(s.equals("Restart")){
+	if(s.equals("Restart")){ //Reopens IntroWindow
 	    RestartWindow rw = new RestartWindow(this);
 	    rw.setVisible(true);
 	}
@@ -447,12 +386,5 @@ public class SudokuWindow extends JFrame implements ActionListener{
 	SudokuWindow s = new SudokuWindow("Guest","Medium", 6);
 	s.setVisible(true);
     }
-    public int calcTime() {
-	String time = timerLabel.getText();
-	int ans = 0;
-	ans += Integer.valueOf(time.substring(time.length()-2));
-	ans += Integer.valueOf(time.substring(3,5)) * 60;
-	ans += Integer.valueOf(time.substring(0,2)) * 60 * 60;
-	return ans;
-    }
+   
 }

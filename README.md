@@ -3,7 +3,7 @@
 The rules for Sudoku are simple: In Sudoku, the goal is to fill the 9 x 9 board with numbers from 1-9. However, the same number can only occur once within the same column, row, and 3 x 3 subgrid. If you complete the board while following these rules, you win the game. </br> </br>
 
 <b>How to navigate our Sudoku game</b> </br>
-The first page is IntroWindow.java. This is the one you want to compile and run. You may also jump straight to SudokuWindow.java, assuming you compiled and ran this, but IntroWindow allows you to pick a username and difficulty level.
+The first page is IntroWindow.java. This is the one you want to compile and run. You may also jump straight to SudokuWindow.java, assuming you compiled and ran this, but IntroWindow allows you to pick a username and difficulty level, and gives an option for entering a seed to generate a specific puzzle.
 Once onto the SudokuWindow window (the one with the actual Sudoku game and buttons), pressing the Help button will open another pop-up window that describes how to play Sudoku and the functions of all the buttons present.</br> </br>
 <b> Development Log </b> </br>
 1/3: first created the Sudoku and SudokuWindow java files</br>
@@ -20,4 +20,4 @@ Once onto the SudokuWindow window (the one with the actual Sudoku game and butto
 1/18: Jeremy caught errors and wrote more of the timer function (but can't implement it). Britni added Welcome, Error, Winning window, still not 100% functional. </br>
 1/19: Jeremy added endpage window if you win and kept working on timer. Britni created IntroWindow. </br>
 1/20: Jeremy began adding random seeds and caught a bug in hint button. Britni tried the timer and it now checks the actual time. We are still working on getting that functional. Britni added usernames and difficulty levels. </br>
-1/21: We are just finishing up and working on getting the random seed generator and timer working. </br>
+1/21: We are just finishing up and working on getting the random seed generator and timer working. UPDATE: Jeremy got both functions working, Britni continued to check for bugs and wrote a Delay Window when creating a new puzzle. </br>

@@ -262,6 +262,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 	String s = e.getActionCommand();
 	if(s.equals("Create Puzzle")){
+	    startTime = calcTime();
 	    if(puzzle != null){
 		CreatePuzzleWindow cpw = new CreatePuzzleWindow(this);
 		cpw.setVisible(true);

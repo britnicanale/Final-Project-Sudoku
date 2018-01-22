@@ -34,7 +34,7 @@ public class IntroWindow extends JFrame implements ActionListener{
 	//welc.setAlignmentX(Component.CENTER_ALIGNMENT);
 	welc.setFont(font);
 	
-	JLabel seedNum = new JLabel ("Enter seed (optional)");
+	JLabel seedNum = new JLabel ("Enter puzzle number 0-5 (optional)");
 	seedNum.setAlignmentX(Component.LEFT_ALIGNMENT);
 	JLabel userLabel = new JLabel("Choose a Username");
 	userLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

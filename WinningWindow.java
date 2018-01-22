@@ -7,7 +7,7 @@ public class WinningWindow extends JFrame implements ActionListener{
     private JPanel pane, scorePane, buttonPane;
     private SudokuWindow sudWin;
 
-    public WinningWindow(int score, SudokuWindow sw){
+    public WinningWindow(int score, int timed, SudokuWindow sw){
 	
 	sudWin = sw;
 
@@ -29,16 +29,22 @@ public class WinningWindow extends JFrame implements ActionListener{
 
 	JButton playagain = new JButton("Play Again");
 	JButton exit = new JButton("Exit");
+
 	playagain.addActionListener(this);
 	exit.addActionListener(this);
+	
+	JLabel time = new JLabel("Time: " + timed + " seconds");
+
 	JLabel user = new JLabel("britni ............... 100000");
 	JLabel user2 = new JLabel("Jeremy ................... 10");
 
 	buttonPane.add(playagain);
 	buttonPane.add(exit);
+	buttonPane.add(time);
 
 	scorePane.add(user);
 	scorePane.add(user2);
+	scorePane.add(time);
 
 	pane.add(buttonPane, BorderLayout.SOUTH);
 	pane.add(scorePane, BorderLayout.CENTER);

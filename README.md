@@ -26,6 +26,6 @@ Once onto the SudokuWindow window (the one with the actual Sudoku game and butto
 <b> Citations</b><br/>
 There were certain chunks of code we used from the internet that were too advanced for us to have understood and written ourselves but helpful to our project. They are as follows: <br/>
 -In SudokuWindow(), Lines 56 - 64: Helped us use BorderLayout when we were getting errors. Link: https://stackoverflow.com/questions/2554684/multiple-layout-managers-in-java<br/>
--In SudokuWindow(), Lines 79 - 92: Helped us use timers, which we couldn't understand because there were lots of elements involved and really complicated documentation. Link: https://stackoverflow.com/questions/13811224/java-display-current-time<br?>
+-In SudokuWindow(), Lines 79 - 92: Helped us use timers, which we couldn't understand because there were lots of elements involved and really complicated documentation. Link: https://stackoverflow.com/questions/13811224/java-display-current-time<br/>
 -In SudokuWindow(), Lines 150 - 158: This overrides NumberFormatter so that we could use it in JFormattedTextFields and it would allow null values to be inputted; without this if you put in a number you wouldn't be allowed to delete it. Link: https://www.experts-exchange.com/questions/20453713/Allowing-blank-JFormattedTextField-fields.html<br/>
 

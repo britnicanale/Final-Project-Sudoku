@@ -30,15 +30,17 @@ public class SudokuWindow extends JFrame implements ActionListener{
     private JTextField seedText;
     private int startTime;
     private int endTime;
+    private int seed;
 
     //public final static int ONE_SECOND = 1000;
 
-    public SudokuWindow(String user, String lev){
+    public SudokuWindow(String user, String lev, int s){
 
 	puzzle = null;
 
 	username = user;
 	level = lev;
+	seed = s;
 	
 	randgen = new Random();
 
@@ -221,7 +223,12 @@ public class SudokuWindow extends JFrame implements ActionListener{
     }
     
     public void createPuzzle(){
-	puzzle = new Sudoku(level);                                               
+	if (seed == 6) {
+	    puzzle = new Sudoku(level);
+	}
+	else {
+	    puzzle = new Sudoku(level, seed);
+	}
 	// seedText.setText(puzzle.getSeed());                                      
 	puzzle.createPuzzle();   //We need to clear board first                     
 	for(int i = 0; i < 9; i++){
@@ -436,7 +443,7 @@ public class SudokuWindow extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args){
-	SudokuWindow s = new SudokuWindow("Guest","Medium");
+	SudokuWindow s = new SudokuWindow("Guest","Medium", 6);
 	s.setVisible(true);
     }
     public int calcTime() {

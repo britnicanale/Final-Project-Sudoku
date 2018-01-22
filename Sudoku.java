@@ -108,16 +108,16 @@ public class Sudoku {
 	    }
 	}
     }
-    public Sudoku (String d, int seed) {
+    public Sudoku (String d, int s) {
 	level = d;
+	seed = s;
 	
 	data = new int[9][9];
 	input = new int[9][9];
 	actual = new int[9][9];
 	randgen = new Random();
-	
-	int a = randgen.nextInt(5);
-	if (a == 0) {
+        
+	if (seed == 0) {
 	    //seed = 0;
 	    actual = new int[][]{     //this is a real solution--we will work with it until we get the generator up and running
 		{2,5,7,9,6,4,1,8,3},
@@ -131,7 +131,7 @@ public class Sudoku {
 		{9,2,4,3,8,1,7,6,5}
 	    };
 	}
-	if (a == 1) {
+	if (seed == 1) {
 	    //seed = 1;
 	    actual = new int[][] {
 		{1,9,2,4,5,6,3,7,8},
@@ -145,7 +145,7 @@ public class Sudoku {
 		{8,7,3,5,1,2,6,4,9}
 	    };
 	}
-	if (a == 2) {
+	if (seed == 2) {
 	    //seed = 2;
 	    actual = new int[][] {
 		{4,2,9,8,1,3,5,6,7},
@@ -159,7 +159,7 @@ public class Sudoku {
 		{2,6,7,9,4,1,3,8,5}
 	    };
 	}
-	if (a == 3) {
+	if (seed == 3) {
 	    actual = new int[][] {
 		{5,3,4,6,7,8,9,1,2},
                 {6,7,2,1,9,5,3,4,8},
@@ -172,7 +172,7 @@ public class Sudoku {
 		{3,4,5,2,8,6,1,7,9}
 	    };
 	}
-	if (a == 4) {
+	if (seed == 4) {
 	    //seed = 4;
 	    actual = new int[][] {
 		{9,5,3,2,6,7,1,4,8},

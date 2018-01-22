@@ -12,11 +12,13 @@ public class IntroWindow extends JFrame implements ActionListener{
     private JPanel pane;
     private JComboBox<String> difficulty;
     private JTextField user;
+    private JTextField seed;
+    private int seedGen;
     public IntroWindow(){
 
 	this.setTitle("Welcome to Sudoku!");
 
-	this.setSize(300,250);
+	this.setSize(350,300);
 
 	this.setLocation(0,0);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -31,12 +33,16 @@ public class IntroWindow extends JFrame implements ActionListener{
 
 	//welc.setAlignmentX(Component.CENTER_ALIGNMENT);
 	welc.setFont(font);
-
+	
+	JLabel seedNum = new JLabel ("Enter seed (optional)");
+	seedNum.setAlignmentX(Component.LEFT_ALIGNMENT);
 	JLabel userLabel = new JLabel("Choose a Username");
 	userLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+	seed = new JTextField("", 1);
 	user = new JTextField("", 15);
 	user.addActionListener(this);
+	seed.addActionListener(this);
 	//user.setPreferredSize(new Dimension(250, 10));
 	user.setMaximumSize(new Dimension(Integer.MAX_VALUE, user.getPreferredSize().height) );
 
@@ -58,6 +64,8 @@ public class IntroWindow extends JFrame implements ActionListener{
 	pane.add(Box.createRigidArea(new Dimension(0,20)));
 	pane.add(levelsLabel);
 	pane.add(difficulty);
+	pane.add(seedNum);
+	pane.add(seed);
 	pane.add(Box.createRigidArea(new Dimension(0,20)));
 	pane.add(play);
 
@@ -71,7 +79,18 @@ public class IntroWindow extends JFrame implements ActionListener{
 		username = "Guest";
 	    }
 	    String x = difficulty.getSelectedItem().toString();
-	    SudokuWindow sw = new SudokuWindow(username, x);
+	    try {
+		if (Integer.valueOf(seed.getText()) >= 0 && Integer.valueOf(seed.getText()) <= 5) {
+		    seedGen = Integer.valueOf(seed.getText());
+		}
+		else {
+		    seedGen = 6;
+		}
+	    }
+	    catch (NumberFormatException er) {
+		seedGen = 6;
+	    }
+	    SudokuWindow sw = new SudokuWindow(username, x, seedGen);
 	    sw.setVisible(true);
 	    this.setVisible(false);
 	    this.dispose();
